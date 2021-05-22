@@ -21,17 +21,19 @@ Dx2 = np.eye(N, k=1) + np.eye(N, k=-1) - 2 * np.eye(N, k=0)
 Dx2 = Dx2 / ((2 * h) * (2 * h))
 Dx2[0, :] = np.zeros(N)
 Dx2[N - 1, :] = np.zeros(N)
-Dx2[0, 1] = -1 * a
-Dx2[N - 1, N - 1] = -1 * b
+Dx2[0, 0] = -1
+Dx2[N - 1, N - 1] = -1
+b = np.zeros(N - 2)
+b = np.hstack([a, N - 2, b])
 
 
 def func(u):
-    return u * (Dx1 @ u) - Dx2 @ u
+    return u * (Dx1 @ u) - Dx2 @ u - b
 
-print(func(10*np.ones(10)))
-sol = fsolve(func, np.array([10,2,3,4,5,6,7,8,9,10]))
+
+print(func(10 * np.ones(10)))
+sol = fsolve(func, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 print(sol)
-
 
 # Next for each of the [u(x_j),u(x_j+1)], we need to apply finite difference method again to solve the solution locally
 #  and aim at obtaining training data for the NN, such that for each input: (u(i),u(i+1)) on the coarse grid, we
@@ -40,6 +42,3 @@ print(sol)
 # Consider the problem on the subinterval [x_j,x_j+1] on [-1,1] such that :
 # phi_j*phi_j_x-phi_j_xx=0, phi_j(x_j)=u(xj), u(x_j+1)=u(x_j+1). We hope to obtain such phi_j and approximate the
 # derivative of phi_j at x_j and x_j+1 respectively, and this is 2 of the target output for the NN.
-
-
-
