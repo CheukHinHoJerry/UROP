@@ -65,13 +65,30 @@ for i in range(len(u_range)):
         print("The solution for the ", i, " th data is: ", fineSol)
         print("The error vector for the ", i, " th data is: ", FineFunc(fineSol))
 
-        #first two entries of a particular row stores the derivative of end points
-        target[10*i+j,0]= (fineSol[1]-fineSol[0])/h
-        target[10*i+j,1]= (fineSol[N-1]-fineSol[N-2])/h
+        # next we use the solution obtained above to find another 4 expected output of the NN
+        # Let phi_i be the solution on the interval [xi,xi+1], then notice that, phi_i satisfy:
+        # phi_i*phix_i-phixx_i=0, phi_i(xi)=u(xi), phi_i(xi+1)=u(xi+1).
+        # It is clear that phi_i depends on ui and ui+1 only.
+        # differentiate both side w.r.t. ui=u(xi) gives:
+        # -yxx_i,i+phi_i*yx_i,i+y_i,i*phix_i=0, y_i,i(xi)=1, y_i,i(xi+1)=0
+        # similarly, consider differentiate w.r.t ui+1=u(xi+1) gives:
+        # -yxx_{i,i+1}+phi_i*yx_{i,i+1}+y_{i,i+1}*phix_i=0, y_{i,i+1}(xi)=1, y_{i,i+1}(xi+1)=0
+        # for solving the above two system, we have:
+
+
+
+
+
+        # first two entries of a particular row stores the derivative of end points
+        target[10 * i + j, 0] = (fineSol[1] - fineSol[0]) / h
+        target[10 * i + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
+
+
+
 
 ###################################Steepest gradient descent algorithm ###############################################################
 
-# Consider the objective function F(u1,u2,....,uN), where F is defined as:
+# Consider the objective function F(u0,u1,....,uN-1), where F is defined as:
 # sum_i=1^N(partial y/partial x (ui-1)-partial y/partial x (ui))^2
 # we want to find the minimizer of F, namely u*.
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
