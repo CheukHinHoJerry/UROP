@@ -32,10 +32,12 @@ h = (2 / N) / N
 # assigning derivative matrix
 Dx1 = np.eye(N, k=1) - np.eye(N, k=-1)
 Dx1 = Dx1 / (2 * h)
+# First and last row of Dx1 is zero for applying boundary condition
 Dx1[0, :] = np.zeros(N)
 Dx1[N - 1, :] = np.zeros(N)
 Dx2 = np.eye(N, k=1) + np.eye(N, k=-1) - 2 * np.eye(N, k=0)
 Dx2 = Dx2 / ((2 * h) * (2 * h))
+# For applying boundary condition
 Dx2[0, :] = np.zeros(N)
 Dx2[N - 1, :] = np.zeros(N)
 Dx2[0, 0] = -1
@@ -48,16 +50,16 @@ for i in range(len(u_range)):
     for j in range(len(u_range)):
         a = u_range[i]
         b = u_range[j]
+
         # initializing a vector for implementing boundary condition (where the boundary condition is different
         # for each loop
-
-        r = np.hstack([a, np.zeros(N - 2), b])
+        r0 = np.hstack([a, np.zeros(N - 2), b])
 
 
         # define FineFunc that value of r2 changes each loop in order to apply the boundary condition
 
         def FineFunc(u):
-            return u * (Dx1 @ u) - Dx2 @ u - r
+            return u * (Dx1 @ u) - Dx2 @ u - r0
 
 
         # solving the system with some initial guess
@@ -70,21 +72,34 @@ for i in range(len(u_range)):
         # phi_i*phix_i-phixx_i=0, phi_i(xi)=u(xi), phi_i(xi+1)=u(xi+1).
         # It is clear that phi_i depends on ui and ui+1 only.
         # differentiate both side w.r.t. ui=u(xi) gives:
-        # -yxx_i,i+phi_i*yx_i,i+y_i,i*phix_i=0, y_i,i(xi)=1, y_i,i(xi+1)=0
+        # (1):-yxx_i,i+phi_i*yx_i,i+y_i,i*phix_i=0, y_i,i(xi)=1, y_i,i(xi+1)=0
         # similarly, consider differentiate w.r.t ui+1=u(xi+1) gives:
-        # -yxx_{i,i+1}+phi_i*yx_{i,i+1}+y_{i,i+1}*phix_i=0, y_{i,i+1}(xi)=1, y_{i,i+1}(xi+1)=0
-        # for solving the above two system, we have:
+        # (2):-yxx_{i,i+1}+phi_i*yx_{i,i+1}+y_{i,i+1}*phix_i=0, y_{i,i+1}(xi)=0, y_{i,i+1}(xi+1)=1
+        # for solving the above two system, notice that we can still us Dx1 and Dx2, we have:
+
+        # initialize vector for implementing boundary condition
+        r1 = np.hstack([1, np.zeros(N - 2), 0])
+        r2 = np.hstack([0, np.zeros(N - 2), 1])
+
+        def partialuFunc1(y):
+            return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r1
 
 
+        def partialuFunc2(y):
+            return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r2
 
 
+        partialuSol1 = fsolve(partialuFunc1, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+        partialuSol2 = fsolve(partialuFunc2, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 
-        # first two entries of a particular row stores the derivative of end points
+        # first two entries of a particular row stores the derivative of end points, the last four entries are
+        # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (x[[[[[[[[[[i+1),
         target[10 * i + j, 0] = (fineSol[1] - fineSol[0]) / h
         target[10 * i + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
-
-
-
+        target[10 * i + j, 2] = (partialuSol1[1] - partialuSol1[0]) / h
+        target[10 * i + j, 3] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
+        target[10 * i + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
+        target[10 * i + j, 5] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
 
 ###################################Steepest gradient descent algorithm ###############################################################
 
