@@ -81,6 +81,7 @@ for i in range(len(u_range)):
         r1 = np.hstack([1, np.zeros(N - 2), 0])
         r2 = np.hstack([0, np.zeros(N - 2), 1])
 
+
         def partialuFunc1(y):
             return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r1
 
@@ -94,13 +95,13 @@ for i in range(len(u_range)):
 
         # first two entries of a particular row stores the derivative of end points, the last four entries are
         # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (x[[[[[[[[[[i+1),
-        target[10 * i + j, 0] = (fineSol[1] - fineSol[0]) / h
-        target[10 * i + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
-        target[10 * i + j, 2] = (partialuSol1[1] - partialuSol1[0]) / h
-        target[10 * i + j, 3] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
-        target[10 * i + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
-        target[10 * i + j, 5] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
-
+        target[0, 10 * i + j] = (fineSol[1] - fineSol[0]) / h
+        target[1, 10 * i + j] = (fineSol[N - 1] - fineSol[N - 2]) / h
+        target[2, 10 * i + j] = (partialuSol1[1] - partialuSol1[0]) / h
+        target[3, 10 * i + j] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
+        target[4, 10 * i + j] = (partialuSol2[1] - partialuSol2[0]) / h
+        target[5, 10 * i + j] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
+print(target)
 ###################################Steepest gradient descent algorithm ###############################################################
 
 # Consider the objective function F(u0,u1,....,uN-1), where F is defined as:
