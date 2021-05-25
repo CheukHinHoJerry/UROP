@@ -24,6 +24,7 @@ from sklearn.model_selection import KFold
 # (-0.95,-1), (-0.95,-0.95), ....(-0,95, 0.95), (-0.95,1).
 
 u_range = np.linspace(-1, 1, 41);
+
 N = 10
 
 # step size on fine grid
@@ -46,26 +47,33 @@ Dx2[N - 1, N - 1] = -1
 # define empty matrix to store the 6 outputs
 target = np.empty([6, len(u_range) * len(u_range)], dtype=float)
 
+
+# define FineFunc that value of r0 changes each loop in order to apply the boundary condition
+def FineFunc(u):
+    return u * (Dx1 @ u) - Dx2 @ u - r0
+
+
+def partialuFunc1(y):
+    return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r1
+
+
+def partialuFunc2(y):
+    return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r2
+
+count=0;
 for i in range(len(u_range)):
     for j in range(len(u_range)):
         a = u_range[i]
         b = u_range[j]
-
+        count=count+1;
         # initializing a vector for implementing boundary condition (where the boundary condition is different
         # for each loop
         r0 = np.hstack([a, np.zeros(N - 2), b])
 
-
-        # define FineFunc that value of r2 changes each loop in order to apply the boundary condition
-
-        def FineFunc(u):
-            return u * (Dx1 @ u) - Dx2 @ u - r0
-
-
         # solving the system with some initial guess
         fineSol = fsolve(FineFunc, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
-        print("The solution for the ", i, " th data is: ", fineSol)
-        print("The error vector for the ", i, " th data is: ", FineFunc(fineSol))
+        print("The solution for the ", i*len(u_range)+j, " th data is: ", fineSol)
+        print("The error vector for the ", i*len(u_range)+j , " th data is: ", FineFunc(fineSol))
 
         # next we use the solution obtained above to find another 4 expected output of the NN
         # Let phi_i be the solution on the interval [xi,xi+1], then notice that, phi_i satisfy:
@@ -81,27 +89,19 @@ for i in range(len(u_range)):
         r1 = np.hstack([1, np.zeros(N - 2), 0])
         r2 = np.hstack([0, np.zeros(N - 2), 1])
 
-
-        def partialuFunc1(y):
-            return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r1
-
-
-        def partialuFunc2(y):
-            return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r2
-
-
         partialuSol1 = fsolve(partialuFunc1, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
         partialuSol2 = fsolve(partialuFunc2, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 
         # first two entries of a particular row stores the derivative of end points, the last four entries are
         # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (x[[[[[[[[[[i+1),
-        target[0, 10 * i + j] = (fineSol[1] - fineSol[0]) / h
-        target[1, 10 * i + j] = (fineSol[N - 1] - fineSol[N - 2]) / h
-        target[2, 10 * i + j] = (partialuSol1[1] - partialuSol1[0]) / h
-        target[3, 10 * i + j] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
-        target[4, 10 * i + j] = (partialuSol2[1] - partialuSol2[0]) / h
-        target[5, 10 * i + j] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
+        target[0, i*len(u_range)+j] = (fineSol[1] - fineSol[0]) / h
+        target[1, i*len(u_range)+j] = (fineSol[N - 1] - fineSol[N - 2]) / h
+        target[2, i*len(u_range)+j] = (partialuSol1[1] - partialuSol1[0]) / h
+        target[3, i*len(u_range)+j] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
+        target[4, i*len(u_range)+j] = (partialuSol2[1] - partialuSol2[0]) / h
+        target[5, i*len(u_range)+j] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
 print(target)
+print(count)
 ###################################Steepest gradient descent algorithm ###############################################################
 
 # Consider the objective function F(u0,u1,....,uN-1), where F is defined as:
