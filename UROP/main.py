@@ -19,7 +19,6 @@
 # for solving the above two system, notice that we can still us Dx1 and Dx2.
 """
 
-
 import numpy as np
 import sympy as sp
 from scipy.optimize import fsolve
@@ -34,14 +33,12 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 
-
-u_range = np.linspace(-1, 1, 41)
+u_range = np.linspace(-1, 1, 121)
 
 N = 10
 
 # step size on fine grid
 h = (2 / N) / N
-
 # assigning derivative matrix
 Dx1 = np.eye(N, k=1) - np.eye(N, k=-1)
 Dx1 = Dx1 / (2 * h)
@@ -50,7 +47,7 @@ Dx1[0, :] = np.zeros(N)
 Dx1[N - 1, :] = np.zeros(N)
 
 Dx2 = np.eye(N, k=1) + np.eye(N, k=-1) - 2 * np.eye(N, k=0)
-Dx2 = Dx2 / (2*h*2*h)
+Dx2 = Dx2 / (2 * h * 2 * h)
 
 # For applying boundary condition
 Dx2[0, :] = np.zeros(N)
@@ -59,8 +56,8 @@ Dx2[0, 0] = -1
 Dx2[N - 1, N - 1] = -1
 
 # define empty matrix and data_x for network training
-target = np.empty([6, len(u_range) * len(u_range)], dtype=float)
-data_x = np.empty([2, len(u_range) * len(u_range)], dtype=float)
+target = np.empty([len(u_range) * len(u_range), 6], dtype=float)
+data_x = np.empty([len(u_range) * len(u_range), 2], dtype=float)
 
 
 # define FineFunc that value of r0 changes each loop in order to apply the boundary condition
@@ -81,8 +78,8 @@ for i in range(len(u_range)):
     for j in range(len(u_range)):
         a = u_range[i]
         b = u_range[j]
-        data_x[0, i * len(u_range) + j] = a
-        data_x[1, i * len(u_range) + j] = b
+        data_x[i * len(u_range) + j, 0] = a
+        data_x[i * len(u_range) + j, 1] = b
         count = count + 1
         # initializing a vector for implementing boundary condition (where the boundary condition is different
         # for each loop
@@ -102,25 +99,25 @@ for i in range(len(u_range)):
 
         # first two entries of a particular row stores the derivative of end points, the last four entries are
         # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (x[[[[[[[[[[i+1),
-        target[0, i * len(u_range) + j] = (fineSol[1] - fineSol[0]) / h
-        target[1, i * len(u_range) + j] = (fineSol[N - 1] - fineSol[N - 2]) / h
-        target[2, i * len(u_range) + j] = (partialuSol1[1] - partialuSol1[0]) / h
-        target[3, i * len(u_range) + j] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
-        target[4, i * len(u_range) + j] = (partialuSol2[1] - partialuSol2[0]) / h
-        target[5, i * len(u_range) + j] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
+        target[i * len(u_range) + j, 0] = (fineSol[1] - fineSol[0]) / h
+        target[i * len(u_range) + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
+        target[i * len(u_range) + j, 2] = (partialuSol1[1] - partialuSol1[0]) / h
+        target[i * len(u_range) + j, 3] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
+        target[i * len(u_range) + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
+        target[i * len(u_range) + j, 5] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
 
 print(target)
 print(count)
 
-
 """ Training of NN  """
 
-# def step_decay(epoch):
-#     initial_learning_rate = 0.01
-#     lrate = initial_learning_rate * 0.96 ** (int((epoch - 1) / 200))
-#     return lrate
 
-"""
+def step_decay(epoch):
+    initial_learning_rate = 0.01
+    lrate = initial_learning_rate * 0.96 ** (int((epoch - 1) / 200))
+    return lrate
+
+
 def normalize(X, Y):
     X = (X - np.mean(X, axis=0)) / np.std(X, axis=0)
     Y = (Y - np.mean(Y, axis=0)) / np.std(Y, axis=0)
@@ -131,13 +128,16 @@ def denomalize(prediction, meany, stdy):
     prediction = prediction * stdy + meany
     return prediction
 
-print(data_x)
+
+print(data_x.shape)
+print(target.shape)
 print(np.std(data_x, axis=0))
-normalized_data_x, normalized_target, std_x, std_y, mean_x, mean_y = normalize(data_x, target)
-train_x, valid_x, train_y, valid_y = train_test_split(normalized_data_x, normalized_target, test_size=0.3, random_state= 42 )
+# normalized_data_x, normalized_target, std_x, std_y, mean_x, mean_y = normalize(data_x, target)
+train_valid_x, test_x, train_valid_y, test_y = train_test_split(data_x, target, test_size=0.2, random_state=42)
+train_x, valid_x, train_y, valid_y, = train_test_split(train_valid_x, train_valid_y, test_size=0.2, random_state=41)
 
 model = tf.keras.models.Sequential()
-#lrate = tf.keras.callbacks.LearningRateScheduler(step_decay)
+lrate = tf.keras.callbacks.LearningRateScheduler(step_decay)
 checkpoint_filepath = '/tmp/checkpoint'
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=checkpoint_filepath,
@@ -147,16 +147,22 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     save_best_only=True)
 earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=6)
 model.add(tf.keras.Input(shape=2))
-model.add(tf.keras.layers.Dense(5, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(5, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(5, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(6, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
 
 model.compile(optimizer='adam', loss='mse', metrics=['MeanSquaredError'])
 
 model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=1,
-          callbacks=[earlystop_callback, model_checkpoint_callback])
+          callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
 
+predictions = model.predict(test_x)
+error = 0
+for i in range(len(test_y)):
+    error = error + np.linalg.norm(predictions[i] - test_y[i]) / np.linalg.norm(test_y[i])
+error = error / (len(test_y) + 1)
+print(error)
 ###################################Steepest gradient descent algorithm ################################################
 
 # Consider the objective function F(u0,u1,....,uN-1), where F is defined as:
@@ -164,4 +170,3 @@ model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, ba
 # we want to find the minimizer of F, namely u*.
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
-"""
