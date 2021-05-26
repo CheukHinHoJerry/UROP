@@ -7,23 +7,11 @@
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
 """
 import numpy as np
-import sympy as sp
-from scipy.optimize import fsolve
-import tensorflow as tf
-import scipy.io
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras import regularizers
-from numpy import linalg
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
 from keras.models import load_model
 
 
 def udiff(saveArray):
-    return np.norm(saveArray[-1] - saveArray[-2])
+    return np.linalg.norm(saveArray[-1] - saveArray[-2])
 
 
 def coarseFunc(u):
@@ -35,7 +23,6 @@ N = 10
 a = 0.3
 b = 0.5
 r0 = np.hstack([a, np.zeros(N - 2), b])
-
 # step size on coarse grid
 h = 2 / N
 # assigning derivative matrix
@@ -61,23 +48,28 @@ N = 10
 
 # initial guess
 u_array = np.empty([N - 2, 1])
-u = np.ones(N - 2)
-print(model.predict(data_x))
+u_iter = np.ones(N-2)
+u = np.hstack([a, u_iter, b])
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
 # all partial derivative for every loop
 
 
-while udiff(u_array) < 0.001:
+count = 0
+for i in range(10):
     # defining array for storing partial derivative for each loop (since u are different for each loop)
     store = np.empty([N - 1, 6])
+    count = count+1
     for i in range(N - 1):
-        prediction = model.predict(u_array[i + 1] - u_array[i])
-        store[:, i] = prediction
-
+        store[i, :] = model.predict(np.array([u[i:i+2]])).T[0]
+    store = np.vstack((store, model.predict(np.array([np.array([u[N-1], u[0]])]))))
     # using the prediction to do the iteration
-    u = u - 2 * (store[0:N - 3, 5] - store[1:N - 2, 1]) * (store[0:N - 3, 1] - store[1:N - 2, 0]) - 2 * (
-            store[1:N - 2, 4] - store[2:N - 1, 0]) * (store[1:N - 2, 4])
+    u_iter = u_iter - 2 * (store[0:N - 2, 5] - store[1:N-1, 1]) * (store[0:N - 2, 1] - store[1:N - 1, 0]) - 2 * (
+            store[1:N - 1, 4] - store[2:N, 0]) * (store[1:N - 1, 4])
+    u = np.hstack([a, u_iter, b])
     u_array = np.append(u_array, u)
+    print(udiff(u_array))
 
-print(coarseFunc(u))
+print(count)
+print("end")
+print(coarseFunc(u),"123")
