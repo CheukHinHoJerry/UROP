@@ -3,7 +3,6 @@ import sympy as sp
 from scipy.optimize import fsolve
 import tensorflow as tf
 import scipy.io
-import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras import regularizers
@@ -34,24 +33,33 @@ def denomalize(prediction, meany, stdy):
     prediction = prediction * stdy + meany
     return prediction
 
+def calError(prediction, target):
+    error = 0
+    for i in range(len(target)):
+        error = error + np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i])
+    error = error / (len(target) + 1)
+    print(error)
 
-print(data_x.shape)
-print(target.shape)
-print(np.std(data_x, axis=0))
+# print(data_x.shape)
+# print(target.shape)
+# print(np.std(data_x, axis=0))
 # normalized_data_x, normalized_target, std_x, std_y, mean_x, mean_y = normalize(data_x, target)
 train_valid_x, test_x, train_valid_y, test_y = train_test_split(data_x, target, test_size=0.2, random_state=42)
 train_x, valid_x, train_y, valid_y, = train_test_split(train_valid_x, train_valid_y, test_size=0.2, random_state=41)
 
 model = tf.keras.models.Sequential()
 lrate = tf.keras.callbacks.LearningRateScheduler(step_decay)
-checkpoint_filepath = '/tmp/checkpoint'
+
+checkpoint_filepath = 'model/model1'
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=checkpoint_filepath,
     save_weights_only=True,
     monitor='val_loss',
     mode='min',
     save_best_only=True)
+
 earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=6)
+
 model.add(tf.keras.Input(shape=2))
 model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
@@ -64,20 +72,11 @@ model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, ba
           callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
 
 predictions = model.predict(test_x)
-error = 0
-for i in range(len(test_y)):
-    error = error + np.linalg.norm(predictions[i] - test_y[i]) / np.linalg.norm(test_y[i])
-error = error / (len(test_y) + 1)
-print(error)
 
-print(model.predict(data_x))
+calError(predictions, test_y)
 
-# # serialize model to JSON
-# model_json = model.to_json()
-# with open("model.json", "w") as json_file:
-#     json_file.write(model_json)
-# # serialize weights to HDF5
-#model.save("model1.h5")
-#print("Saved model to disk")
+# print(model.predict(data_x))
+
+model.save("model1.h5")
 
 

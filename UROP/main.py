@@ -20,18 +20,7 @@
 """
 
 import numpy as np
-import sympy as sp
 from scipy.optimize import fsolve
-import tensorflow as tf
-import scipy.io
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras import regularizers
-from numpy import linalg
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
 
 u_range = np.linspace(-1, 1, 41)
 
@@ -98,7 +87,7 @@ for i in range(len(u_range)):
         partialuSol2 = fsolve(partialuFunc2, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 
         # first two entries of a particular row stores the derivative of end points, the last four entries are
-        # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (x[[[[[[[[[[i+1),
+        # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (xi+1),
         target[i * len(u_range) + j, 0] = (fineSol[1] - fineSol[0]) / h
         target[i * len(u_range) + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
         target[i * len(u_range) + j, 2] = (partialuSol1[1] - partialuSol1[0]) / h

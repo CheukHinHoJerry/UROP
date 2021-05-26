@@ -17,8 +17,6 @@ from tensorflow.keras import layers
 from tensorflow.keras import regularizers
 from numpy import linalg
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
 from keras.models import load_model
 
 
@@ -27,22 +25,22 @@ def udiff(saveArray):
 
 
 # import model for looping
-data_x = np.loadtxt('data_x.txt', delimiter=',')
 model = load_model('model1.h5')
+
 N = 10
 
 # initial guess
 u_array = np.empty([0])
 u = np.ones(N - 2)
-print(model.predict(data_x))
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
 # all partial derivative for every loop
 
-while udiff(u_array) < 0.001:
+tol = 0.001
+'''while udiff(u_array) < tol:
     #calculate different derivative by NN
-    partialDeri=
+    partialDeri = 
     for i in range(N-1):
         model.predict(u_array[i+1]-u_array[i])
 
-    u = u_array[-1] -
+    u = u_array[-1] -'''
