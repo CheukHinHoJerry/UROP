@@ -22,15 +22,27 @@ from sklearn.model_selection import KFold
 from keras.models import load_model
 
 
-#import model for looping
+def udiff(saveArray):
+    return np.norm(saveArray[-1] - saveArray[- 2])
+
+
+# import model for looping
 data_x = np.loadtxt('data_x.txt', delimiter=',')
 model = load_model('model1.h5')
 N = 10
 
-#initial guess
-u = np.ones(N-2)
+# initial guess
+u_array = np.empty([0])
+u = np.ones(N - 2)
 print(model.predict(data_x))
 
+# instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
+# all partial derivative for every loop
 
+while udiff(u_array) < 0.001:
+    #calculate different derivative by NN
+    partialDeri=
+    for i in range(N-1):
+        model.predict(u_array[i+1]-u_array[i])
 
-
+    u = u_array[-1] -
