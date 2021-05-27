@@ -20,8 +20,8 @@ def coarseFunc(u):
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-a = 0.1
-b = 0.1
+a = -0.1
+b = -0.1
 r0 = np.array([np.hstack([a, np.zeros(N - 2), b])]).T
 # step size on coarse grid
 h = 2 / N
@@ -43,37 +43,38 @@ Dx2[N - 1, N - 1] = -1
 
 # import model for looping
 data_x = np.loadtxt('data_x.txt', delimiter=',')
+target = np.loadtxt('target.txt', delimiter=',')
 model = load_model('model1.h5')
 N = 10
 
 # initial guess
-u_array = np.empty([N, 1])
-u_iter = np.array([np.ones(N-2)]).T
-u = np.vstack([a, u_iter, b])
+u_iter = -0.9*np.array([np.zeros(N - 2)]).T
+# saving array
+u = np.vstack([np.array([a]), u_iter, np.array([b])])
+u_array = u
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
 # all partial derivative for every loop
 
-
+# steep size control of gradient descent
+alpha = 0.0001
 count = 0
-for i in range(10):
+while np.linalg.norm(coarseFunc(u)) > 0.01:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
-    store = np.empty([N - 1, 6])
-    count = count+1
+    store = np.zeros([N - 1, 6])
+    count = count + 1
     for k in range(N - 1):
-        print(u[k:k+2])
-        store[k, :] = model.predict(u[k:k+2].T).T[:,0]
-    store = np.vstack((store, model.predict(np.array([u[N - 1], u[0]]).T).T[:, 0]))
+        store[k, :] = model.predict(u[k:k + 2].T)
+    store = np.vstack((store, model.predict(np.array([u[N - 1], u[0]]).T)))
     # using the prediction to do the iteration
-    print(store)
-    u_iter = u_iter - 2 * (np.array([store[0:N - 2, 5]]).T - np.array([store[1:N-1, 2]]).T) * \
-             (np.array([store[0:N - 2, 1]]).T - np.array([store[1:N - 1, 0]]).T) - 2 * (
-            np.array([store[1:N - 1, 4]]).T - np.array([store[2:N, 0]]).T) * np.array([store[1:N - 1, 3]]).T
+    u_iter = u_iter - alpha * (2 * (np.array([store[0:N - 2, 5]]).T - np.array([store[1:N - 1, 2]]).T) *
+                               (np.array([store[0:N - 2, 1]]).T - np.array([store[1:N - 1, 0]]).T) - 2 * (
+                                       np.array([store[1:N - 1, 1]]).T - np.array([store[2:N, 0]]).T) * np.array(
+                [store[1:N - 1, 3]]).T)
     u = np.vstack([a, u_iter, b])
-    print(u)
     u_array = np.hstack([u_array, u])
-    print(u_array)
-
-
+    print(u)
+    print(np.linalg.norm(coarseFunc(u)))
 print(u)
+print(np.linalg.norm(coarseFunc(u)))
 print(coarseFunc(u), "123")
