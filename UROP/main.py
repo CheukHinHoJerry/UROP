@@ -22,7 +22,7 @@
 import numpy as np
 from scipy.optimize import fsolve
 
-u_range = np.linspace(-1, 1, 41)
+u_range = np.linspace(-1.5, 1.5, 61)
 
 N = 10
 
@@ -97,5 +97,5 @@ for i in range(len(u_range)):
 
 print(target)
 print(count)
-np.savetxt('target.txt', target, delimiter=',')
-np.savetxt('data_x.txt', data_x, delimiter=',')
+#np.savetxt('target2.txt', target, delimiter=',')
+#np.savetxt('data_x2.txt', data_x, delimiter=',')

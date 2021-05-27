@@ -14,8 +14,8 @@ from keras.models import model_from_json
 
 """ Training of NN  """
 
-data_x = np.loadtxt('data_x.txt', delimiter=',')
-target = np.loadtxt('target.txt', delimiter=',')
+data_x = np.loadtxt('data_x2.txt', delimiter=',')
+target = np.loadtxt('target2.txt', delimiter=',')
 
 def step_decay(epoch):
     initial_learning_rate = 0.01
@@ -77,6 +77,6 @@ calError(predictions, test_y)
 
 # print(model.predict(data_x))
 
-model.save("model1.h5")
+model.save("model2.h5")
 
 
