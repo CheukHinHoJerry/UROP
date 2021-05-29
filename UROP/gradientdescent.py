@@ -6,6 +6,7 @@
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
 """
+
 import numpy as np
 from keras.models import load_model
 
@@ -20,9 +21,9 @@ def coarseFunc(u):
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-a = -0.1
-b = -0.1
-r0 = np.array([np.hstack([a, np.zeros(N - 2), b])]).T
+a = 0.35
+b = 0.85
+r0 = np.hstack([a, np.zeros(N - 2), b])
 # step size on coarse grid
 h = 2 / N
 # assigning derivative matrix
@@ -43,38 +44,41 @@ Dx2[N - 1, N - 1] = -1
 
 # import model for looping
 data_x = np.loadtxt('data_x.txt', delimiter=',')
-target = np.loadtxt('target.txt', delimiter=',')
 model = load_model('model1.h5')
 N = 10
 
 # initial guess
-u_iter = -0.9*np.array([np.zeros(N - 2)]).T
-# saving array
-u = np.vstack([np.array([a]), u_iter, np.array([b])])
-u_array = u
+u_array = np.empty([N - 2, 1])
+u_iter = 0.3 * np.ones(N - 2)
+u = np.hstack([a, u_iter, b])
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
 # all partial derivative for every loop
 
-# steep size control of gradient descent
-alpha = 0.0001
 count = 0
+alpha = 0.001
+tol = 0.01
+sol = np.array([0.35, 0.39674803, 0.44500377, 0.49500855, 0.54703357, 0.60138627,
+                0.65841838, 0.71853582, 0.78221126, 0.85])
 while np.linalg.norm(coarseFunc(u)) > 0.01:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
-    store = np.zeros([N - 1, 6])
+    store = np.empty([N - 1, 6])
     count = count + 1
-    for k in range(N - 1):
-        store[k, :] = model.predict(u[k:k + 2].T)
-    store = np.vstack((store, model.predict(np.array([u[N - 1], u[0]]).T)))
+
+    for i in range(N - 1):
+        store[i, :] = model.predict(np.array([u[i:i + 2]]))
+    store = np.vstack((store, model.predict(np.array([[u[N - 1], u[0]]]))))
     # using the prediction to do the iteration
-    u_iter = u_iter - alpha * (2 * (np.array([store[0:N - 2, 5]]).T - np.array([store[1:N - 1, 2]]).T) *
-                               (np.array([store[0:N - 2, 1]]).T - np.array([store[1:N - 1, 0]]).T) - 2 * (
-                                       np.array([store[1:N - 1, 1]]).T - np.array([store[2:N, 0]]).T) * np.array(
-                [store[1:N - 1, 3]]).T)
-    u = np.vstack([a, u_iter, b])
-    u_array = np.hstack([u_array, u])
+    u_iter = u_iter - alpha * (
+            2 * (store[0:N - 2, 5] - store[1:N - 1, 2]) * (store[0:N - 2, 1] - store[1:N - 1, 0]) + 2 * (
+            store[1:N - 1, 1] - store[2:N, 0]) * (store[1:N - 1, 3]))
+    u = np.hstack([a, u_iter, b])
+    u_array = np.append(u_array, u)
+    # print(u_iter)
     print(u)
     print(np.linalg.norm(coarseFunc(u)))
-print(u)
-print(np.linalg.norm(coarseFunc(u)))
-print(coarseFunc(u), "123")
+    print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
+
+# print(count)
+print("end")
+print(coarseFunc(u))
