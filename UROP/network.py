@@ -1,21 +1,14 @@
 import numpy as np
-import sympy as sp
-from scipy.optimize import fsolve
 import tensorflow as tf
-import scipy.io
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras import regularizers
 from numpy import linalg
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
-from keras.models import model_from_json
+from tensorflow.keras import regularizers
 
 """ Training of NN  """
 
 data_x = np.loadtxt('data_x2.txt', delimiter=',')
 target = np.loadtxt('target2.txt', delimiter=',')
+
 
 def step_decay(epoch):
     initial_learning_rate = 0.01
@@ -33,12 +26,14 @@ def denomalize(prediction, meany, stdy):
     prediction = prediction * stdy + meany
     return prediction
 
+
 def calError(prediction, target):
     error = 0
     for i in range(len(target)):
         error = error + np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i])
-    error = error / (len(target) + 1)
+    error = error / len(target)
     print(error)
+
 
 # print(data_x.shape)
 # print(target.shape)
@@ -77,6 +72,4 @@ calError(predictions, test_y)
 
 # print(model.predict(data_x))
 
-model.save("model2.h5")
-
-
+# model.save("model2.h5")

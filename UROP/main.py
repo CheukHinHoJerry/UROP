@@ -47,6 +47,8 @@ Dx2[N - 1, N - 1] = -1
 # define empty matrix and data_x for network training
 target = np.empty([len(u_range) * len(u_range), 6], dtype=float)
 data_x = np.empty([len(u_range) * len(u_range), 2], dtype=float)
+sol = np.empty([len(u_range) * len(u_range), N], dtype=float)
+
 
 
 # define FineFunc that value of r0 changes each loop in order to apply the boundary condition
@@ -55,11 +57,11 @@ def fineFunc(u):
 
 
 def partialuFunc1(y):
-    return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r1
+    return -Dx2 @ y + (Dx1 @ y) * fineSol + (Dx1 @ fineSol) * y - r1
 
 
 def partialuFunc2(y):
-    return -Dx2 @ y + (Dx1 @ y) * fineSol + Dx1 @ fineSol * y - r2
+    return -Dx2 @ y + (Dx1 @ y) * fineSol + (Dx1 @ fineSol) * y - r2
 
 
 count = 0
@@ -78,7 +80,6 @@ for i in range(len(u_range)):
         fineSol = fsolve(fineFunc, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
         print("The solution for the ", i * len(u_range) + j, " th data is: ", fineSol)
         print("The error vector for the ", i * len(u_range) + j, " th data is: ", fineFunc(fineSol))
-
         # initialize vector for implementing boundary condition
         r1 = np.hstack([1, np.zeros(N - 2), 0])
         r2 = np.hstack([0, np.zeros(N - 2), 1])
@@ -97,5 +98,5 @@ for i in range(len(u_range)):
 
 print(target)
 print(count)
-#np.savetxt('target2.txt', target, delimiter=',')
-#np.savetxt('data_x2.txt', data_x, delimiter=',')
+np.savetxt('target2.txt', target, delimiter=',')
+np.savetxt('data_x2.txt', data_x, delimiter=',')
