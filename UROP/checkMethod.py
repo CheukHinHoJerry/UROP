@@ -6,7 +6,7 @@ which has size N*N, then we should have that F(u*) being small, where u* is the 
 
 """
 import numpy as np
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from scipy.optimize import fsolve
 
 data_x = np.loadtxt('data_x2.txt', delimiter=',')
@@ -49,8 +49,7 @@ print("The solution for is", sol)
 real_coarse_sol = np.array([sol[0]])
 
 for i in range(1, N + 1):
-    print(sol[i*N-1])
-    np.hstack((real_coarse_sol, sol[i*N - 1]))
+    real_coarse_sol = np.hstack((real_coarse_sol, sol[i*N - 1]))
 print("The coarse sol is", real_coarse_sol)
 print("The error vector is: ", coarseFunc(sol))
 
@@ -64,8 +63,8 @@ diff_sol = np.hstack((diff_sol, np.array([np.array([(sol[N * N - 1] - sol[N * N 
 print(diff_sol)
 nn_sol = np.zeros([N - 1, 6])
 for k in range(N - 1):
-    nn_sol[k, :] = model.predict(np.array([[sol[k:k + 2]]]))
-nn_sol = np.vstack((nn_sol, model.predict(np.array([[sol[N - 1], sol[0]]]))))
+    nn_sol[k, :] = model.predict(np.array([[real_coarse_sol[k:k + 2]]]))
+nn_sol = np.vstack((nn_sol, model.predict(np.array([[real_coarse_sol[N - 1], real_coarse_sol[0]]]))))
 print(nn_sol)
 nn_diff_sol = nn_sol[:, 0:2].T
 print("The solution from nn is", nn_diff_sol)
