@@ -6,7 +6,6 @@
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
 """
-
 import numpy as np
 from keras.models import load_model
 
@@ -43,8 +42,9 @@ Dx2[0, 0] = -1
 Dx2[N - 1, N - 1] = -1
 
 # import model for looping
-data_x = np.loadtxt('data_x.txt', delimiter=',')
-model = load_model('model1.h5')
+data_x = np.loadtxt('data_x2.txt', delimiter=',')
+target = np.loadtxt('target2.txt', delimiter=',')
+model = load_model('model2.h5')
 N = 10
 
 # initial guess
@@ -62,7 +62,8 @@ sol = np.array([0.35, 0.39674803, 0.44500377, 0.49500855, 0.54703357, 0.60138627
                 0.65841838, 0.71853582, 0.78221126, 0.85])
 while np.linalg.norm(coarseFunc(u)) > 0.01:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
-    store = np.empty([N - 1, 6])
+
+    store = np.zeros([N - 1, 6])
     count = count + 1
 
     for i in range(N - 1):
@@ -75,9 +76,10 @@ while np.linalg.norm(coarseFunc(u)) > 0.01:
     u = np.hstack([a, u_iter, b])
     u_array = np.append(u_array, u)
     # print(u_iter)
+    print(u_array)
     print(u)
-    print(np.linalg.norm(coarseFunc(u)))
-    print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
+    # print(np.linalg.norm(coarseFunc(u)))
+    # print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
 
 # print(count)
 print("end")

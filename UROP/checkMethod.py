@@ -13,7 +13,7 @@ data_x = np.loadtxt('data_x2.txt', delimiter=',')
 target = np.loadtxt('target2.txt', delimiter=',')
 model = load_model('model2.h5')
 
-# for a=b=0, solve the equation on coarse grid
+# for a and b, solve the equation on fine grid
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
@@ -46,19 +46,28 @@ def coarseFunc(u):
 # solving the system with some initial guess
 sol = fsolve(coarseFunc, np.ones(N * N))
 print("The solution for is", sol)
+real_coarse_sol = np.array([sol[0]])
+
+for i in range(1, N + 1):
+    print(sol[i*N-1])
+    np.hstack((real_coarse_sol, sol[i*N - 1]))
+print("The coarse sol is", real_coarse_sol)
 print("The error vector is: ", coarseFunc(sol))
 
 # checking the input from NN
 diff_sol = np.zeros([2, N - 1])
-for i in range(N - 1):
-    diff_sol[:, i] = np.array([(sol[(1 + i * N)] - sol[(0 + i * N)]) / h, (sol[i * (N - 1)] - sol[i * (N - 2)]) / h])
+for i in range(1, N - 1):
+    diff_sol[:, i] = np.array(
+        [(sol[(i * N)] - sol[(i * N - 1)]) / h, (sol[((i + 1) * N - 1)] - sol[(i + 1) * N - 2]) / h])
 diff_sol = np.hstack((diff_sol, np.array([np.array([(sol[N * N - 1] - sol[N * N - 2]) / h,
-                                         (sol[N * N - 1] - sol[0]) / h])]).T))
-
+                                                    (sol[N * N - 1] - sol[0]) / h])]).T))
+print(diff_sol)
 nn_sol = np.zeros([N - 1, 6])
 for k in range(N - 1):
-    nn_sol[k, :] = model.predict(np.array([sol[k:k + 2]]).T)
-nn_sol = np.vstack((nn_sol, model.predict(np.array([sol[N - 1], sol[0]]).T)))
-nn_diff_sol = nn_sol[N - 1, 0:2].T
-
+    nn_sol[k, :] = model.predict(np.array([[sol[k:k + 2]]]))
+nn_sol = np.vstack((nn_sol, model.predict(np.array([[sol[N - 1], sol[0]]]))))
+print(nn_sol)
+nn_diff_sol = nn_sol[:, 0:2].T
+print("The solution from nn is", nn_diff_sol)
+print("The original solution is", diff_sol)
 print("The error from the original fine solution to that of the output from NN is:", diff_sol - nn_diff_sol)
