@@ -79,8 +79,8 @@ while np.linalg.norm(coarseFunc(u)) > 0.01:
     # print(u_iter)
     print(u_array)
     print(u)
-    # print(np.linalg.norm(coarseFunc(u)))
-    # print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
+    print("The error 1 :", np.linalg.norm(coarseFunc(u))/10)
+    print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
 
 # print(count)
 print("end")
