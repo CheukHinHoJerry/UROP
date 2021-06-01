@@ -98,5 +98,5 @@ for i in range(len(u_range)):
 
 print(target)
 print(count)
-np.savetxt('target2.txt', target, delimiter=',')
-np.savetxt('data_x2.txt', data_x, delimiter=',')
+#np.savetxt('target2.txt', target, delimiter=',')
+#np.savetxt('data_x2.txt', data_x, delimiter=',')

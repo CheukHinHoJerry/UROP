@@ -49,22 +49,23 @@ print("The solution for is", sol)
 real_coarse_sol = np.array([sol[0]])
 
 for i in range(1, N + 1):
-    real_coarse_sol = np.hstack((real_coarse_sol, sol[i*N - 1]))
+    real_coarse_sol = np.hstack((real_coarse_sol, sol[i * N - 1]))
 print("The coarse sol is", real_coarse_sol)
 print("The error vector is: ", coarseFunc(sol))
 
 # checking the input from NN
-diff_sol = np.zeros([2, N - 1])
+diff_sol = np.zeros([2, N - 2])
 for i in range(1, N - 1):
-    diff_sol[:, i] = np.array(
+    diff_sol[:, i - 1] = np.array(
         [(sol[(i * N)] - sol[(i * N - 1)]) / h, (sol[((i + 1) * N - 1)] - sol[(i + 1) * N - 2]) / h])
-diff_sol = np.hstack((diff_sol, np.array([np.array([(sol[N * N - 1] - sol[N * N - 2]) / h,
-                                                    (sol[N * N - 1] - sol[0]) / h])]).T))
-print(diff_sol)
-nn_sol = np.zeros([N - 1, 6])
-for k in range(N - 1):
-    nn_sol[k, :] = model.predict(np.array([[real_coarse_sol[k:k + 2]]]))
-nn_sol = np.vstack((nn_sol, model.predict(np.array([[real_coarse_sol[N - 1], real_coarse_sol[0]]]))))
+    print("The", i, "th diff_sol is: ", diff_sol)
+# diff_sol[:, N-2] = np.array([(sol[N * N - 1] - sol[N * N - 2]) / h,
+#                                                    (sol[N * N - 1] - sol[0]) / h])
+print(diff_sol.shape)
+nn_sol = np.zeros([N-2, 6])
+for k in range(1, N - 1):
+    nn_sol[k - 1, :] = model.predict(np.array([[real_coarse_sol[k:k + 2]]]))
+# nn_sol = np.vstack((nn_sol, model.predict(np.array([[real_coarse_sol[N - 1], real_coarse_sol[0]]]))))
 print(nn_sol)
 nn_diff_sol = nn_sol[:, 0:2].T
 print("The solution from nn is", nn_diff_sol)
