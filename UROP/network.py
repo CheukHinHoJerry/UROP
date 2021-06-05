@@ -72,4 +72,4 @@ calError(predictions, test_y)
 
 print(model.predict(data_x))
 
-#model.save("model_10intervals.h5")
+model.save("model_10intervals.h5")

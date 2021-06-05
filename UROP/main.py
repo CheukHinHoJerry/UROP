@@ -34,7 +34,7 @@ Dx1 = np.eye(N + 1, k=1) - np.eye(N + 1, k=-1)
 Dx1 = Dx1 / (2 * h)
 # First and last row of Dx1 is zero for applying boundary condition
 Dx1[0, :] = np.zeros(N + 1)
-Dx1[N - 1, :] = np.zeros(N + 1)
+Dx1[N, :] = np.zeros(N + 1)
 
 Dx2 = np.eye(N + 1, k=1) + np.eye(N + 1, k=-1) - 2 * np.eye(N + 1, k=0)
 Dx2 = Dx2 / (2 * h * 2 * h)
