@@ -24,31 +24,29 @@ from scipy.optimize import fsolve
 
 u_range = np.linspace(-1.5, 1.5, 61)
 
+# number of intervals, the number of intervals of fine grid is N*N (number of points are N+1 and N^2+1 respectively)
 N = 10
 
 # step size on fine grid
 h = (2 / N) / N
 # assigning derivative matrix
-Dx1 = np.eye(N, k=1) - np.eye(N, k=-1)
+Dx1 = np.eye(N + 1, k=1) - np.eye(N + 1, k=-1)
 Dx1 = Dx1 / (2 * h)
 # First and last row of Dx1 is zero for applying boundary condition
-Dx1[0, :] = np.zeros(N)
-Dx1[N - 1, :] = np.zeros(N)
+Dx1[0, :] = np.zeros(N + 1)
+Dx1[N - 1, :] = np.zeros(N + 1)
 
-Dx2 = np.eye(N, k=1) + np.eye(N, k=-1) - 2 * np.eye(N, k=0)
+Dx2 = np.eye(N + 1, k=1) + np.eye(N + 1, k=-1) - 2 * np.eye(N + 1, k=0)
 Dx2 = Dx2 / (2 * h * 2 * h)
 
 # For applying boundary condition
-Dx2[0, :] = np.zeros(N)
-Dx2[N - 1, :] = np.zeros(N)
-Dx2[0, 0] = -1
-Dx2[N - 1, N - 1] = -1
+Dx2[0, :] = np.hstack((-1, np.zeros(N)))
+Dx2[N, :] = np.hstack((np.zeros(N), -1))
 
 # define empty matrix and data_x for network training
-target = np.empty([len(u_range) * len(u_range), 6], dtype=float)
-data_x = np.empty([len(u_range) * len(u_range), 2], dtype=float)
-sol = np.empty([len(u_range) * len(u_range), N], dtype=float)
-
+target = np.zeros([len(u_range) * len(u_range), 6], dtype=float)
+data_x = np.zeros([len(u_range) * len(u_range), 2], dtype=float)
+sol = np.zeros([len(u_range) * len(u_range), N + 1], dtype=float)
 
 
 # define FineFunc that value of r0 changes each loop in order to apply the boundary condition
@@ -74,29 +72,30 @@ for i in range(len(u_range)):
         count = count + 1
         # initializing a vector for implementing boundary condition (where the boundary condition is different
         # for each loop
-        r0 = np.hstack([a, np.zeros(N - 2), b])
+        r0 = np.hstack([a, np.zeros(N - 1), b])
 
         # solving the system with some initial guess
-        fineSol = fsolve(fineFunc, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+        fineSol = fsolve(fineFunc, np.linspace(a, b, N + 1))
         print("The solution for the ", i * len(u_range) + j, " th data is: ", fineSol)
         print("The error vector for the ", i * len(u_range) + j, " th data is: ", fineFunc(fineSol))
-        # initialize vector for implementing boundary condition
-        r1 = np.hstack([1, np.zeros(N - 2), 0])
-        r2 = np.hstack([0, np.zeros(N - 2), 1])
 
-        partialuSol1 = fsolve(partialuFunc1, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
-        partialuSol2 = fsolve(partialuFunc2, np.array([10, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+        # initialize vector for implementing boundary condition
+        r1 = np.hstack([1, np.zeros(N - 1), 0])
+        r2 = np.hstack([0, np.zeros(N - 1), 1])
+
+        partialuSol1 = fsolve(partialuFunc1, np.linspace(1, 0, N + 1))
+        partialuSol2 = fsolve(partialuFunc2, np.linspace(0, 1, N + 1))
 
         # first two entries of a particular row stores the derivative of end points, the last four entries are
         # dy_{i,i}/dx (xi) , dy_{i,i}/dx (xi+1), dy_{i,i+1}/dx (xi) , dy_{i,i+1}/dx (xi+1),
         target[i * len(u_range) + j, 0] = (fineSol[1] - fineSol[0]) / h
-        target[i * len(u_range) + j, 1] = (fineSol[N - 1] - fineSol[N - 2]) / h
+        target[i * len(u_range) + j, 1] = (fineSol[N] - fineSol[N - 1]) / h
         target[i * len(u_range) + j, 2] = (partialuSol1[1] - partialuSol1[0]) / h
-        target[i * len(u_range) + j, 3] = (partialuSol1[N - 1] - partialuSol1[N - 2]) / h
+        target[i * len(u_range) + j, 3] = (partialuSol1[N] - partialuSol1[N - 1]) / h
         target[i * len(u_range) + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
-        target[i * len(u_range) + j, 5] = (partialuSol2[N - 1] - partialuSol2[N - 2]) / h
+        target[i * len(u_range) + j, 5] = (partialuSol2[N] - partialuSol2[N - 1]) / h
 
 print(target)
 print(count)
-#np.savetxt('target2.txt', target, delimiter=',')
-#np.savetxt('data_x2.txt', data_x, delimiter=',')
+np.savetxt('target2_10interval.txt', target, delimiter=',')
+np.savetxt('data_x2_10interval.txt', data_x, delimiter=',')

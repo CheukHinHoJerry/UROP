@@ -8,6 +8,8 @@
 """
 import numpy as np
 from tensorflow.keras.models import load_model
+
+
 # from keras.models import load_model
 
 
@@ -21,8 +23,8 @@ def coarseFunc(u):
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-a = 0.35
-b = 0.85
+a = 0.3
+b = -0.3
 r0 = np.hstack([a, np.zeros(N - 2), b])
 # step size on coarse grid
 h = 2 / N
@@ -45,12 +47,12 @@ Dx2[N - 1, N - 1] = -1
 # import model for looping
 data_x = np.loadtxt('data_x2.txt', delimiter=',')
 target = np.loadtxt('target2.txt', delimiter=',')
-model = load_model('model2.h5')
+model = load_model('model/model2.h5')
 N = 10
 
 # initial guess
 u_array = np.empty([N - 2, 1])
-u_iter = 0.3 * np.ones(N - 2)
+u_iter = 0.3 * np.ones(N - 1)
 u = np.hstack([a, u_iter, b])
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
@@ -59,11 +61,10 @@ u = np.hstack([a, u_iter, b])
 count = 0
 alpha = 0.001
 tol = 0.01
-sol = np.array([0.35, 0.39674803, 0.44500377, 0.49500855, 0.54703357, 0.60138627,
-                0.65841838, 0.71853582, 0.78221126, 0.85])
-while np.linalg.norm(coarseFunc(u)) > 0.01:
+sol = np.array([0.3, 0.26127758, 0.20890545, 0.14708409, 0.07761366, 0.00373631,
+                -0.07036003, -0.14043828, -0.2031308, -0.25648608, -0.3])
+while np.linalg.norm(coarseFunc(u)) > 0.000001:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
-
     store = np.zeros([N - 1, 6])
     count = count + 1
 
@@ -79,7 +80,7 @@ while np.linalg.norm(coarseFunc(u)) > 0.01:
     # print(u_iter)
     print(u_array)
     print(u)
-    print("The error 1 :", np.linalg.norm(coarseFunc(u))/10)
+    print("The error 1 :", np.linalg.norm(coarseFunc(u)) / 10)
     print(np.linalg.norm(u - sol) / np.linalg.norm(sol))
 
 # print(count)

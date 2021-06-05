@@ -7,7 +7,7 @@ from tensorflow.keras import regularizers
 """ Training of NN  """
 
 data_x = np.loadtxt('data_x2.txt', delimiter=',')
-target = np.loadtxt('target2.txt', delimiter=',')
+target = np.loadtxt('target2_10interval.txt', delimiter=',')
 
 
 def step_decay(epoch):
@@ -70,6 +70,6 @@ predictions = model.predict(test_x)
 
 calError(predictions, test_y)
 
-# print(model.predict(data_x))
+print(model.predict(data_x))
 
-# model.save("model2.h5")
+#model.save("model_10intervals.h5")

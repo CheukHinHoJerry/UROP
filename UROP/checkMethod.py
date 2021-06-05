@@ -11,7 +11,7 @@ from scipy.optimize import fsolve
 
 data_x = np.loadtxt('data_x2.txt', delimiter=',')
 target = np.loadtxt('target2.txt', delimiter=',')
-model = load_model('model2.h5')
+model = load_model('model/model2.h5')
 
 # for a and b, solve the equation on fine grid
 
