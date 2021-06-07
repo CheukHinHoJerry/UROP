@@ -60,7 +60,7 @@ print(Dx2.shape)
 # all partial derivative for every loop
 
 count = 0
-alpha = 0.0001
+alpha = 0.001
 tol = 0.0000001
 sol = np.array([3.00000000e-01, 2.57136775e-01, 2.04551151e-01, 1.42692200e-01,
                 7.34211565e-02, -7.38086822e-11, -7.34211566e-02, -1.42692200e-01,
