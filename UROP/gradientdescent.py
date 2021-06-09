@@ -23,8 +23,8 @@ def coarseFunc(u):
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-a = 0.3
-b = -0.3
+a = -0.3
+b = 0.3
 r0 = np.hstack([a, np.zeros(N - 1), b])
 # step size on coarse grid
 h = 2 / N
@@ -47,24 +47,23 @@ data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
 target = np.loadtxt('target2_10interval.txt', delimiter=',')
 model = load_model('model/model_10intervals.h5')
 N = 10
-
+sol = np.array([-3.00000000e-01, -2.23016556e-01, -1.58719619e-01, -1.02147175e-01,
+                -5.00444455e-02, 2.26571717e-10, 5.00444454e-02, 1.02147175e-01,
+                1.58719619e-01, 2.23016556e-01, 3.00000000e-01])
 # initial guess
 u_array = np.empty([N + 1, 1])
-u_iter = 0.3 * np.ones(N - 1)
+u_iter = np.linspace(a, b, N + 1)[1:-1]
 u = np.hstack([a, u_iter, b])
-print(u.shape)
-print(Dx1.shape)
-print(Dx2.shape)
+# u = sol
+print(coarseFunc(sol))
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
 # all partial derivative for every loop
 
 count = 0
-alpha = 0.001
+alpha = 0.0001
 tol = 0.0000001
-sol = np.array([3.00000000e-01, 2.57136775e-01, 2.04551151e-01, 1.42692200e-01,
-                7.34211565e-02, -7.38086822e-11, -7.34211566e-02, -1.42692200e-01,
-                -2.04551152e-01, -2.57136775e-01, -3.00000000e-01])
+
 while np.linalg.norm(coarseFunc(u)) > tol:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
     store = np.zeros([N, 6])
@@ -72,16 +71,19 @@ while np.linalg.norm(coarseFunc(u)) > tol:
 
     for i in range(N):
         store[i, :] = model.predict(np.array([u[i:i + 2]]))
-    store = np.vstack((store, model.predict(np.array([[u[N - 1], u[0]]]))))
+    store = np.vstack((store, np.zeros(6)))
+    # store = np.vstack((store, model.predict(np.array([[u[N - 1], u[0]]]))))
     # using the prediction to do the iteration
-    u_iter = u_iter - alpha * (
-            2 * (store[0:N - 1, 5] - store[1:N, 2]) * (store[0:N - 1, 1] - store[1:N, 0]) + 2 * (
-            store[1:N, 1] - store[2:N + 1, 0]) * (store[1:N, 3]))
+    print(count, "th store", store)
+    grad = 2 * (store[0:N - 1, 5] - store[1:N, 2]) * (store[0:N - 1, 1] - store[1:N, 0]) + 2 * (
+            store[1:N, 1] - store[2:N + 1, 0]) * (store[1:N, 3])
+    u_iter = u_iter - alpha * grad
     u = np.hstack([a, u_iter, b])
     u_array = np.append(u_array, u)
     # print(u_iter)
-    print("Error for each entry when plugging in into original discretized system :", np.linalg.norm(coarseFunc(u)) / 10)
-    print("Error with fine grid:",  np.linalg.norm(u - sol) / np.linalg.norm(sol))
+    print("Error for each entry when plugging in into original discretized system :",
+          np.linalg.norm(coarseFunc(u)) / N)
+    print("Error with fine grid:", np.linalg.norm(u - sol) / np.linalg.norm(sol))
 
 # print(count)
 print("end")
