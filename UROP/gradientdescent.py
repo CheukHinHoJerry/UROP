@@ -21,6 +21,9 @@ def coarseFunc(u):
     return u * (Dx1 @ u) - Dx2 @ u - r0
 
 
+# defining target function, take DU as an input of size (which contains different partial derivative from the NN
+
+
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
 a = -0.3
@@ -47,14 +50,14 @@ data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
 target = np.loadtxt('target2_10interval.txt', delimiter=',')
 model = load_model('model/model_10intervals.h5')
 N = 10
-sol = np.array([-3.00000000e-01, -2.23016556e-01, -1.58719619e-01, -1.02147175e-01,
-                -5.00444455e-02, 2.26571717e-10, 5.00444454e-02, 1.02147175e-01,
-                1.58719619e-01, 2.23016556e-01, 3.00000000e-01])
+sol = np.array([-0.5, -0.38115072, -0.29389888, -0.22509515, -0.16771603, -0.1175893,
+                -0.0719902, -0.02895759, 0.01308412, 0.05557068, 0.1])
+
 # initial guess
 u_array = np.empty([N + 1, 1])
 u_iter = np.linspace(a, b, N + 1)[1:-1]
 u = np.hstack([a, u_iter, b])
-# u = sol
+#u_iter = sol[1:-1]
 print(coarseFunc(sol))
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
@@ -74,15 +77,26 @@ while np.linalg.norm(coarseFunc(u)) > tol:
     store = np.vstack((store, np.zeros(6)))
     # store = np.vstack((store, model.predict(np.array([[u[N - 1], u[0]]]))))
     # using the prediction to do the iteration
-    print(count, "th store", store)
-    grad = 2 * (store[0:N - 1, 5] - store[1:N, 2]) * (store[0:N - 1, 1] - store[1:N, 0]) + 2 * (
-            store[1:N, 1] - store[2:N + 1, 0]) * (store[1:N, 3])
-    u_iter = u_iter - alpha * grad
+    # print(count, "th store", store)
+
+    # update u[2,N-2],which is the sol except the first two and last two entry
+    # the first two corresponding to u[2]
+    grad = 2 * (store[0:N - 3, 1] - store[1:N - 2, 0]) * (store[1:N - 2, 5]) + 2 * (
+                store[1:N - 2, 5] - store[2:N - 1, 2]) * (store[1:N - 2, 1] - store[2:N - 1, 0]) + 2 * (
+                   store[2:N - 1, 1] - store[3:N, 0]) * (store[2:N - 1, 3])
+    u_iter[1:-1] = u_iter[1:-1] - alpha * grad
+
+    # updatre the second last and second first entry, i.e. u[1] and u[N-1], where u is the solution
+    u_iter[0] = u_iter[0] - alpha * (2 * (store[0, 5] - store[1, 2]) * (store[0, 1] - store[1, 0]) + 2 * (
+            store[1, 1] - store[2, 0]) * (store[1, 3]))
+    u_iter[-1] = u_iter[-1] - alpha * (2 * (store[N - 3, 1] - store[N - 2, 0]) * (store[N - 2, 5]) + 2 * (
+                store[N - 2, 5] - store[N - 1, 2]) * (store[N - 2, 1] - store[N - 1, 0]))
+
     u = np.hstack([a, u_iter, b])
     u_array = np.append(u_array, u)
     # print(u_iter)
-    print("Error for each entry when plugging in into original discretized system :",
-          np.linalg.norm(coarseFunc(u)) / N)
+    # print("Error for each entry when plugging in into original discretized system :",
+    # np.linalg.norm(coarseFunc(u)) / N)
     print("Error with fine grid:", np.linalg.norm(u - sol) / np.linalg.norm(sol))
 
 # print(count)
