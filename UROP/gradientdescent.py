@@ -23,10 +23,10 @@ def coarseFunc(u):
 
 # defining target function, take DU as an input of size (which contains different partial derivative from the NN
 
-
+# number of intervals
 N = 10
-# boundary condition for the target problem, u(-1)=a, u(1)=b
 
+# boundary condition for the target problem, u(-1)=a, u(1)=b
 a = 0.6
 b = -0.8
 
@@ -70,7 +70,7 @@ sol = np.array([0.6, 0.44647016, 0.22890003, -0.03090544, -0.28457717, -0.487973
 u_array = np.empty([N + 1, 1])
 u_iter = np.linspace(a, b, N + 1)[1:-1]
 u = np.hstack([a, u_iter, b])
-# u_iter = sol[1:-1] + np.random.rand(sol.shape[0] - 2)
+#u_iter = sol[1:-1]
 print(coarseFunc(sol))
 
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
@@ -80,21 +80,18 @@ count = 0
 alpha = 0.001
 tol = 0.0000001
 
-while np.linalg.norm(coarseFunc(u)) > tol:
+while np.linalg.norm(u - sol) / np.linalg.norm(sol) > tol:
     # defining array for storing partial derivative for each loop (since u are different for each loop)
     store = np.zeros([N, 6])
     count = count + 1
 
     for i in range(N):
         store[i, :] = model.predict(np.array([u[i:i + 2]]))
-    store = np.vstack((store, np.zeros(6)))
     # store = np.vstack((store, model.predict(np.array([[u[N - 1], u[0]]]))))
     # using the prediction to do the iteration
     # print(count, "th store", store)
 
     F = np.linalg.norm(store[0:N - 1, 1] - store[1:N, 0]) ** 2
-    print("The error of F is", F)
-
     # update u[2,N-2],which is the sol except the first two and last two entry
     # the first two corresponding to u[2]
     grad = 2 * (store[0:N - 3, 1] - store[1:N - 2, 0]) * (store[1:N - 2, 4]) + 2 * (
@@ -112,9 +109,9 @@ while np.linalg.norm(coarseFunc(u)) > tol:
     u_array = np.append(u_array, u)
     print(count)
     # print(u_iter)
-    print("Error for each entry when plugging in into original discretized system :", np.linalg.norm(coarseFunc(u)))
-    # print("Error array: ", u - sol)
+    print("Error array: ", u - sol)
     print("Error with fine grid:", np.linalg.norm(u - sol) / np.linalg.norm(sol))
+    print("The error of F is", F)
 
 # print(count)
 print("end")

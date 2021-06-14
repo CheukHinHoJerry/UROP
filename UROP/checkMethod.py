@@ -17,8 +17,8 @@ model = load_model('model/model_10intervals.h5')
 
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-a = 0.8
-b = 0.2
+a = 0.6
+b = -0.8
 r0 = np.hstack([a, np.zeros(N * N - 1), b])
 # step size on fine grid
 h = (2 / N) / N
