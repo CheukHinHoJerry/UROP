@@ -22,7 +22,7 @@
 import numpy as np
 from scipy.optimize import fsolve
 
-u_range = np.linspace(-1.5, 1.5, 61)
+u_range = np.linspace(-1.5, 1.5, 101)
 
 # number of intervals, the number of intervals of fine grid is N*N^2 (number of points are N+1 and N^2+1 respectively)
 N = 10
@@ -96,5 +96,5 @@ for i in range(len(u_range)):
 
 print(target)
 print(count)
-np.savetxt('target_100*10intervals.txt', target, delimiter=',')
-np.savetxt('data_x_100*10interval.txt', data_x, delimiter=',')
+np.savetxt('target_100*10intervals_moreData.txt', target, delimiter=',')
+np.savetxt('data_x_100*10intervals_moreData.txt', data_x, delimiter=',')

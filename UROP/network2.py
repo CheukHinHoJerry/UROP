@@ -6,8 +6,8 @@ from tensorflow.keras import regularizers
 
 """ Training of NN  """
 
-data_x = np.loadtxt('data_x_100*10interval.txt', delimiter=',')
-target = np.loadtxt('target_100*10intervals.txt', delimiter=',')
+data_x = np.loadtxt('data_x_100*10intervals_moreData.txt', delimiter=',')
+target = np.loadtxt('target_100*10intervals_moreData.txt', delimiter=',')
 
 
 def step_decay(epoch):
@@ -31,6 +31,7 @@ def calError(prediction, target):
     error = 0
     for i in range(len(target)):
         error = error + np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i])
+        print(np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i]))
     error = error / len(target)
     print(error)
 
@@ -70,6 +71,5 @@ predictions = model.predict(test_x)
 
 calError(predictions, test_y)
 
-print(model.predict(data_x))
 
-model.save("model_100*10intervals.h5")
+#model.save("model_100*10intervals.h5")
