@@ -57,9 +57,11 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
 earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=6)
 
 model.add(tf.keras.Input(shape=2))
-model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(6, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
 
 model.compile(optimizer='adam', loss='mse', metrics=['MeanSquaredError'])
@@ -72,4 +74,4 @@ predictions = model.predict(test_x)
 calError(predictions, test_y)
 
 
-#model.save("model_100*10intervals.h5")
+model.save("model_100*10intervals.h5")

@@ -51,6 +51,12 @@ for i in range(1, N + 1):
 print("The coarse sol is", real_coarse_sol)
 print("The error vector is: ", coarseFunc(sol))
 
+print("The left derivative at first node is: ", (real_coarse_sol[1]-sol[N-1])/h)
+print("The right derivative at first node is: ", (sol[N+1]-real_coarse_sol[1])/h)
+
+print(model.predict(np.array([[real_coarse_sol[0:0 + 2]]])))
+print(model.predict(np.array([[real_coarse_sol[1:1 + 2]]])))
+
 # # checking the input from NN
 # diff_sol = np.zeros([2, N])
 # for i in range(N - 1):
