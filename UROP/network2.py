@@ -57,21 +57,25 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
 earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=6)
 
 model.add(tf.keras.Input(shape=2))
+model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(6, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
 
-model.compile(optimizer='adam', loss='mse', metrics=['MeanSquaredError'])
+model.compile(optimizer='adam', loss='mse', metrics=['mse'])
 
-model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=1,
+history=model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=1,
           callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
 
-predictions = model.predict(test_x)
+test_predictions = model.predict(test_x)
+calError(test_predictions, test_y)
 
-calError(predictions, test_y)
-
+train_predictions = model.predict(train_x)
+calError(train_predictions,train_y)
 
 model.save("model_100*10intervals.h5")
+
+
