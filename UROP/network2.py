@@ -6,8 +6,8 @@ from tensorflow.keras import regularizers
 
 """ Training of NN  """
 
-data_x = np.loadtxt('data_x_100*10intervals_moreData.txt', delimiter=',')
-target = np.loadtxt('target_100*10intervals_moreData.txt', delimiter=',')
+data_x = np.loadtxt('10_outputs_data_x_100*10intervals_moreData.txt', delimiter=',')
+target = np.loadtxt('10_outputs_target_100*10intervals_moreData.txt', delimiter=',')
 
 
 def step_decay(epoch):
@@ -60,10 +60,10 @@ model.add(tf.keras.Input(shape=2))
 model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(10, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(6, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
 
 model.compile(optimizer='adam', loss='mse', metrics=['mse'])
 
@@ -76,6 +76,6 @@ calError(test_predictions, test_y)
 train_predictions = model.predict(train_x)
 calError(train_predictions,train_y)
 
-model.save("model_100*10intervals.h5")
+model.save("10outputs_model_100*10intervals.h5")
 
 

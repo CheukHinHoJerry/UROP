@@ -8,13 +8,12 @@ which has size N*N, then we should have that F(u*) being small, where u* is the 
 import numpy as np
 from tensorflow.keras.models import load_model
 from scipy.optimize import fsolve
-
-data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
-target = np.loadtxt('target2_10interval.txt', delimiter=',')
-model = load_model('model/model_10intervals.h5')
-
+import time
+data_x = np.loadtxt('10_outputs_data_x_100*10intervals_moreData.txt', delimiter=',')
+target = np.loadtxt('10_outputs_target_100*10intervals_moreData.txt', delimiter=',')
+model = load_model('model/10outputs_model_100*10intervals.h5')
+print(model.predict(data_x))
 # for a and b, solve the equation on fine grid
-
 N = 10
 # boundary condition for the target problem, u(-1)=a, u(1)=b
 a = 0.6

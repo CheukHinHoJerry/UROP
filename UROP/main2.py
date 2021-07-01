@@ -44,7 +44,7 @@ Dx2[0, :] = np.hstack((-1, np.zeros(N**2)))
 Dx2[N**2, :] = np.hstack((np.zeros(N**2), -1))
 
 # define empty matrix and data_x for network training
-target = np.zeros([len(u_range) * len(u_range), 6], dtype=float)
+target = np.zeros([len(u_range) * len(u_range), 10], dtype=float)
 data_x = np.zeros([len(u_range) * len(u_range), 2], dtype=float)
 
 
@@ -93,8 +93,16 @@ for i in range(len(u_range)):
         target[i * len(u_range) + j, 3] = (partialuSol1[N**2] - partialuSol1[N**2 - 1]) / h
         target[i * len(u_range) + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
         target[i * len(u_range) + j, 5] = (partialuSol2[N**2] - partialuSol2[N**2 - 1]) / h
+        target[i * len(u_range) + j, 6] = fineSol[1]
+        target[i * len(u_range) + j, 7] = fineSol[0]
+        target[i * len(u_range) + j, 8] = partialuSol1[1]
+        target[i * len(u_range) + j, 9] = partialuSol1[0]
+        print(partialuSol1[0])
+        print(partialuSol1[1])
+
+
 
 print(target)
 print(count)
-np.savetxt('target_100*10intervals_moreData.txt', target, delimiter=',')
-np.savetxt('data_x_100*10intervals_moreData.txt', data_x, delimiter=',')
+#np.savetxt('10_outputs_target_100*10intervals_moreData.txt', target, delimiter=',')
+#np.savetxt('10_outputs_data_x_100*10intervals_moreData.txt', data_x, delimiter=',')
