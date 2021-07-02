@@ -94,15 +94,13 @@ for i in range(len(u_range)):
         target[i * len(u_range) + j, 4] = (partialuSol2[1] - partialuSol2[0]) / h
         target[i * len(u_range) + j, 5] = (partialuSol2[N**2] - partialuSol2[N**2 - 1]) / h
         target[i * len(u_range) + j, 6] = fineSol[1]
-        target[i * len(u_range) + j, 7] = fineSol[0]
+        target[i * len(u_range) + j, 7] = fineSol[N**2-1]
         target[i * len(u_range) + j, 8] = partialuSol1[1]
-        target[i * len(u_range) + j, 9] = partialuSol1[0]
-        print(partialuSol1[0])
-        print(partialuSol1[1])
+        target[i * len(u_range) + j, 9] = partialuSol2[N**2-1]
 
 
 
 print(target)
 print(count)
-#np.savetxt('10_outputs_target_100*10intervals_moreData.txt', target, delimiter=',')
-#np.savetxt('10_outputs_data_x_100*10intervals_moreData.txt', data_x, delimiter=',')
+np.savetxt('10_outputs_target_100*10intervals_moreData.txt', target, delimiter=',')
+np.savetxt('10_outputs_data_x_100*10intervals_moreData.txt', data_x, delimiter=',')
