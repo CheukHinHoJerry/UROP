@@ -57,6 +57,7 @@ sol = np.array([0.6, 0.44651126, 0.22901778, -0.0307047, -0.28433673, -0.4877549
 # initial guess
 u_array = np.empty([N + 1, 1])
 u_iter = np.linspace(a, b, N + 1)[1:-1]
+print(u_iter)
 # u_iter = np.copy(sol[1:-1])
 u = np.hstack([a, u_iter, b])
 
@@ -64,8 +65,8 @@ u = np.hstack([a, u_iter, b])
 # all partial derivative for every loop
 
 count = 0
-alpha1 = 0.000000000001
-alpha2 = 0.000000000001
+alpha1 = 0.0000000000001
+alpha2 = 0.0000000000001
 tol = 0.0000001
 
 # while np.linalg.norm(u - sol) / np.linalg.norm(sol) > tol:
@@ -92,18 +93,21 @@ while count < 100:
                     store[2:N - 1, 1] - store[3:N, 0]) * (store[2:N - 1, 3])
 
     # 3 parts of derivatives, grad2 = grad21 + grad22 + grad23
-    grad21 = 2 * ((store[1:N - 2, 6] - 2 * u_iter[1: -1] + store[0:N - 3, 7]) / (4 * h ** 2) + u_iter[1: -1] * (
+    grad21 = 2 * ((store[1:N - 2, 6] - 2 * u_iter[1: N-2] + store[0:N - 3, 7]) / (4 * h ** 2) + u_iter[1: N-2] * (
             store[1:N - 2, 6] - store[0:N - 3, 7])) * (
-                         store[1:N - 2, 8] / (4 * h ** 2) + u_iter[1: -1] * store[1:N - 2, 8] / (2 * h))
-    grad22 = 2 * ((store[2:N - 1, 6] - 2 * u_iter[1: -1] + store[1:N - 2, 7]) / (4 * h ** 2) + u_iter[1: -1] * (
+                         store[1:N - 2, 8] / (4 * h ** 2) + u_iter[1: N-2] * store[1:N - 2, 8] / (2 * h))
+    grad22 = 2 * ((store[2:N - 1, 6] - 2 * u_iter[2:N-1] + store[1:N - 2, 7]) / (4 * h ** 2) + u_iter[2: N-1] * (
             store[2:N - 1, 6] - store[1:N - 2, 7]) / (2 * h)) * (
                          (store[2:N - 1, 8] - 2 + store[1:N - 2, 9]) / (4 * h ** 2) + (
                          store[2:N - 1, 6] - store[1:N - 2, 7]) / (
                                  2 * h) +
-                         u_iter[1: -1] / (2 * h) * (store[2:N - 1, 8] - store[1: N - 2, 9]))
-    grad23 = 2 * ((store[3:N, 6] - 2 * u_iter[1: -1] + store[2:N - 1, 7]) / (4 * h ** 2) + u_iter[1: -1] * (
+                         u_iter[2: N-1] / (2 * h) * (store[2:N - 1, 8] - store[1: N - 2, 9]))
+    print(store[3:N,6].shape)
+    print(u_iter[2:N-1])
+    print(u_iter[3:N])
+    grad23 = 2 * ((store[3:N, 6] - 2 * u_iter[3:N] + store[2:N - 1, 7]) / (4 * h ** 2) + u_iter[3:N] * (
             store[3:N, 6] - store[2:N - 1, 7])) * (
-                         store[2:N - 1, 9] / (4 * h ** 2) - u_iter[1: -1] * store[2:N - 1, 9] / (2 * h))
+                         store[2:N - 1, 9] / (4 * h ** 2) - u_iter[3:N] * store[2:N - 1, 9] / (2 * h))
 
     # print(grad1)
     # print("grad2 first:",2 * (u_iter[1: -1]*(
