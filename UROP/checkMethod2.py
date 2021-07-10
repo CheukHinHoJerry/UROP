@@ -29,7 +29,7 @@ Dx1[0, :] = np.zeros(N * N ** 2 + 1)
 Dx1[N * N ** 2, :] = np.zeros(N * N ** 2 + 1)
 
 Dx2 = np.eye(N * N ** 2 + 1, k=1) + np.eye(N * N ** 2 + 1, k=-1) - 2 * np.eye(N * N ** 2 + 1, k=0)
-Dx2 = Dx2 / (2 * h * 2 * h)
+Dx2 = Dx2 / (h ** 2)
 
 # For applying boundary condition
 Dx2[0, :] = np.hstack((-1, np.zeros(N * N ** 2)))
@@ -61,6 +61,7 @@ print(model.predict(np.array([[real_coarse_sol[1:1 + 2]]])))
 
 left_deri = np.zeros(N - 1)
 right_deri = np.zeros(N - 1)
+
 for i in range(1, N):
     left_deri[i - 1] = (sol[i * N ** 2] - sol[i * N ** 2 - 1]) / h
     right_deri[i - 1] = (sol[i * N ** 2 + 1] - sol[i * N ** 2]) / h

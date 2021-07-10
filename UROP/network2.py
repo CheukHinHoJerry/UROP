@@ -31,7 +31,6 @@ def calError(prediction, target):
     error = 0
     for i in range(len(target)):
         error = error + np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i])
-        print(np.linalg.norm(prediction[i] - target[i]) / np.linalg.norm(target[i]))
     error = error / len(target)
     print(error)
 
@@ -54,28 +53,30 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     mode='min',
     save_best_only=True)
 
-earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=6)
+earlystop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=6)
 
 model.add(tf.keras.Input(shape=2))
 model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+# model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
+# model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
-model.add(tf.keras.layers.Dense(20, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
+model.add(tf.keras.layers.Dense(10, activation='sigmoid', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(20, activation='relu', activity_regularizer=regularizers.l2(1e-4)))
 model.add(tf.keras.layers.Dense(10, activation='linear', activity_regularizer=regularizers.l2(1e-4)))
 
-model.compile(optimizer='adam', loss='mse', metrics=['mse'])
+model.compile(optimizer='adam', loss='mse', metrics=['MeanSquaredError'])
 
-history=model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=1,
+history=model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=20,
           callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
 
-test_predictions = model.predict(test_x)
-calError(test_predictions, test_y)
-
 train_predictions = model.predict(train_x)
+print("training set error:")
 calError(train_predictions,train_y)
 
-model.save("10outputs_model_100*10intervals.h5")
+test_predictions = model.predict(test_x)
+print("Testing set error:")
+calError(test_predictions, test_y)
+
+#model.save("10outputs_model_100*10intervals_remove4.h5")
 
 

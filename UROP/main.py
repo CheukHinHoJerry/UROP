@@ -37,7 +37,7 @@ Dx1[0, :] = np.zeros(N + 1)
 Dx1[N, :] = np.zeros(N + 1)
 
 Dx2 = np.eye(N + 1, k=1) + np.eye(N + 1, k=-1) - 2 * np.eye(N + 1, k=0)
-Dx2 = Dx2 / (2 * h * 2 * h)
+Dx2 = Dx2 / (h ** 2)
 
 # For applying boundary condition
 Dx2[0, :] = np.hstack((-1, np.zeros(N)))
