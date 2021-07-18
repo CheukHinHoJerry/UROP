@@ -11,7 +11,7 @@ from scipy.optimize import fsolve
 
 data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
 target = np.loadtxt('target2_10interval.txt', delimiter=',')
-model = load_model('model/model_10intervals.h5')
+model = load_model('../model/model_10intervals.h5')
 
 # for a and b, solve the equation on fine grid
 
@@ -30,7 +30,7 @@ Dx1[0, :] = np.zeros(N * N + 1)
 Dx1[N * N, :] = np.zeros(N * N + 1)
 
 Dx2 = np.eye(N * N + 1, k=1) + np.eye(N * N + 1, k=-1) - 2 * np.eye(N * N + 1, k=0)
-Dx2 = Dx2 / (2 * h * 2 * h)
+Dx2 = Dx2 / ( h * h)
 
 # For applying boundary condition
 Dx2[0, :] = np.hstack((-1, np.zeros(N * N)))

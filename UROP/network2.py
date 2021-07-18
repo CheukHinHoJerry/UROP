@@ -6,8 +6,8 @@ from tensorflow.keras import regularizers
 
 """ Training of NN  """
 
-data_x = np.loadtxt('10_outputs_data_x_100*10intervals_moreData.txt', delimiter=',')
-target = np.loadtxt('10_outputs_target_100*10intervals_moreData.txt', delimiter=',')
+data_x = np.loadtxt('data/10_outputs_data_x_1000*10intervals_moreData.txt', delimiter=',')
+target = np.loadtxt('data/10_outputs_target_1000*10intervals_moreData.txt', delimiter=',')
 
 
 def step_decay(epoch):
@@ -66,17 +66,15 @@ model.add(tf.keras.layers.Dense(10, activation='linear', activity_regularizer=re
 
 model.compile(optimizer='adam', loss='mse', metrics=['MeanSquaredError'])
 
-history=model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=20,
-          callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
+history = model.fit(train_x, train_y, validation_data=(valid_x, valid_y), epochs=20000, batch_size=20,
+                    callbacks=[earlystop_callback, lrate, model_checkpoint_callback])
 
 train_predictions = model.predict(train_x)
 print("training set error:")
-calError(train_predictions,train_y)
+calError(train_predictions, train_y)
 
 test_predictions = model.predict(test_x)
 print("Testing set error:")
 calError(test_predictions, test_y)
 
-#model.save("10outputs_model_100*10intervals_remove4.h5")
-
-
+model.save("model/10outputs_model_1000*10intervals.h5")
