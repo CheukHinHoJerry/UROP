@@ -77,4 +77,4 @@ test_predictions = model.predict(test_x)
 print("Testing set error:")
 calError(test_predictions, test_y)
 
-model.save("model/10outputs_model_1000*10intervals.h5")
+#model.save("model/10outputs_model_1000*10intervals.h5")

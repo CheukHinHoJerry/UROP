@@ -23,10 +23,7 @@ import numpy as np
 from scipy.optimize import fsolve
 
 import tensorflow as tf
-if tf.test.gpu_device_name():
-    print('Default GPU Device: {}'.format(tf.test.gpu_device_name()))
-else:
-    print("Please install GPU version of TF")
+
 u_range = np.linspace(-1.5, 1.5, 61)
 
 # number of intervals, the number of intervals of fine grid is N*N^2 (number of points are N+1 and N^2+1 respectively)
