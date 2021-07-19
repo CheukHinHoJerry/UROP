@@ -46,6 +46,9 @@ h = (2 / N) / (N ** 3)
 
 a = 0.1
 b = -0.3
+
+# a = 0.9
+# b = -0.8
 # import model for looping
 model = load_model('model/10outputs_model_1000*10intervals.h5')
 # data_x = np.loadtxt('10_outputs_data_x_100*10intervals_moreData.txt', delimiter=',')
@@ -53,11 +56,14 @@ model = load_model('model/10outputs_model_1000*10intervals.h5')
 # prediction = model.predict(data_x)
 
 
-sol = np.array([0.6, 0.4692596, 0.3257162, 0.17255989, 0.01405396, -0.14489576,
-                -0.2993287, -0.44483116, -0.57800285, -0.69669375, -0.8])
-
+# sol = np.array([0.6, 0.4692596, 0.3257162, 0.17255989, 0.01405396, -0.14489576,
+#                 -0.2993287, -0.44483116, -0.57800285, -0.69669375, -0.8])
+#
 sol = np.array([0.1, 0.05812646, 0.01576398, -0.02673208, -0.06900187, -0.11069313,
                 -0.15147279, -0.19103717, -0.22912029, -0.26549974, -0.3])
+
+# sol = np.array([0.9,  0.77290372,  0.62466573,  0.45681149,  0.27299757,
+#             0.07893508, -0.11819512, -0.31074952, -0.49177089, -0.65592823, -0.8])
 
 # initial guess
 u_array = np.zeros([N + 1, 1])
@@ -96,10 +102,9 @@ while count < 1000:
     # update u[2,N-2],which is the sol except the first two and last two entry
     # print(store)
 
-    grad1 = 2 * (store[0:N - 3, 1] - store[1:N - 2, 0]) * (- store[1:N - 2, 4]) + 2 * (
-                store[1:N - 2, 1] - store[2:N - 1, 0]) * (
-                    store[1:N - 2, 5] - store[2:N - 1, 2]) + 2 * (
-                    store[2:N - 1, 1] - store[3:N, 0]) * (store[2:N - 1, 3])
+    grad1 = 2 * (store[0:N - 3, 1] - store[1:N - 2, 0]) * (- store[1:N - 2, 4]) \
+            + 2 * (store[1:N - 2, 1] - store[2:N - 1, 0]) * (store[1:N - 2, 5] - store[2:N - 1, 2]) \
+            + 2 * (store[2:N - 1, 1] - store[3:N, 0]) * (store[2:N - 1, 3])
     print(grad1.shape)
     # 3 parts of derivatives, grad2 = grad21 + grad22 + grad23
 
@@ -132,8 +137,8 @@ while count < 1000:
     u_iter[1:-1] = u_iter[1:-1] - alpha1 * grad1 \
         # - alpha2 * (grad21 + grad22 + grad23)
     # update the second last and second first entry, i.e. u[1] and u[N-1], where u is the solution
-    u_iter[0] = u_iter[0] - alpha1 * (2 * (store[0, 5] - store[1, 2]) * (store[0, 1] - store[1, 0]) + 2 * (
-            store[1, 1] - store[2, 0]) * (store[1, 3])) \
+    u_iter[0] = u_iter[0] - alpha1 * (2 * (store[0, 5] - store[1, 2]) * (store[0, 1] - store[1, 0])
+                                      + 2 * (store[1, 1] - store[2, 0]) * (store[1, 3])) \
  \
         # - alpha2 * (
     #             2 * ((store[1, 6] - 2 * u_iter[0] + store[0, 7]) / (h ** 2) + u_iter[0] * (
@@ -146,8 +151,8 @@ while count < 1000:
     #                         store[2, 6] - store[1, 7]) / (2 * h)) * (
     #                     store[1, 9] / (h ** 2) - u_iter[1] * store[1, 9] / (2 * h)))
 
-    u_iter[-1] = u_iter[-1] - alpha1 * (2 * (store[N - 3, 1] - store[N - 2, 0]) * (- store[N - 2, 4]) + 2 * (
-            store[N - 2, 5] - store[N - 1, 2]) * (store[N - 2, 1] - store[N - 1, 0])) \
+    u_iter[-1] = u_iter[-1] - alpha1 * (2 * (store[N - 3, 1] - store[N - 2, 0]) * (- store[N - 2, 4])
+                   + 2 * (store[N - 2, 5] - store[N - 1, 2]) * (store[N - 2, 1] - store[N - 1, 0])) \
  \
         # - alpha2 * (
     #             2 * ((store[N - 2, 6] - 2 * u_iter[-2] + store[N - 3, 7]) / (h ** 2) + u_iter[-2] * (

@@ -70,7 +70,7 @@ print(u[N])
 # all partial derivative for every loop
 
 count = 0
-alpha1 = 0.001
+alpha1 = 0.00000000000000001  # 0.001
 alpha2 = 0.00000000000000001
 tol = 0.0000001
 save_deri_f_error = 999
@@ -89,8 +89,8 @@ while count < 1000:
     # print(count, "th store", store)
 
     A = np.linalg.norm(store[0:N - 1, 1] - store[1:N, 0]) ** 2
-    B = np.linalg.norm((store[2:N - 1, 6] - 2 * u_iter[2:N - 1] + store[1:N - 2, 7]) / (h ** 2) + u_iter[2:N - 1] * ((
-            store[2:N - 1, 6] - store[1:N - 2, 7]) / (2 * h)))
+    B = np.linalg.norm((store[2:N - 1, 6] - 2 * u_iter[1:N - 2] + store[1:N - 2, 7]) / (h ** 2)
+                       + u_iter[1:N - 2] * ((store[2:N - 1, 6] - store[1:N - 2, 7]) / (2 * h)))
     print("Error of A", A)
     print("Error of B", B)
     if A < save_deri_f_error:
@@ -100,27 +100,23 @@ while count < 1000:
     # print(store)
 
     grad1 = 2 * (store[0:N - 3, 1] - store[1:N - 2, 0]) * (- store[1:N - 2, 4]) + 2 * (
-                store[1:N - 2, 1] - store[2:N - 1, 0]) * (
+            store[1:N - 2, 1] - store[2:N - 1, 0]) * (
                     store[1:N - 2, 5] - store[2:N - 1, 2]) + 2 * (
                     store[2:N - 1, 1] - store[3:N, 0]) * (store[2:N - 1, 3])
     print(grad1.shape)
     # 3 parts of derivatives, grad2 = grad21 + grad22 + grad23
     print((store[1:N - 2, 6] - 2 * u_iter[1: N - 2] + store[0:N - 3, 7]) / (h ** 2))
-    grad21 = 2 * ((store[1:N - 2, 6] - 2 * u_iter[1: N - 2] + store[0:N - 3, 7]) / (h ** 2) + u_iter[1: N - 2] * (
+    grad21 = 2 * ((store[1:N - 2, 6] - 2 * u_iter[0:N - 3] + store[0:N - 3, 7]) / (h ** 2) + u_iter[0:N - 3] * (
             store[1:N - 2, 6] - store[0:N - 3, 7]) / (2 * h)) * (
-                     store[1:N - 2, 8] / (h ** 2) + u_iter[1: N - 2] * store[1:N - 2, 8] / (2 * h))
+                     store[1:N - 2, 8] / (h ** 2) + u_iter[0:N - 3] * store[1:N - 2, 8] / (2 * h))
 
-    grad22 = 2 * ((store[2:N - 1, 6] - 2 * u_iter[2:N - 1] + store[1:N - 2, 7]) / (h ** 2) + u_iter[2: N - 1] * (
+    grad22 = 2 * ((store[2:N - 1, 6] - 2 * u_iter[1:N - 2] + store[1:N - 2, 7]) / (h ** 2) + u_iter[1:N - 2] * (
             store[2:N - 1, 6] - store[1:N - 2, 7]) / (2 * h)) * (
-                     (store[2:N - 1, 8] - 2 + store[1:N - 2, 9]) / (h ** 2) + (
-                     store[2:N - 1, 6] - store[1:N - 2, 7]) / (
-                             2 * h) +
-                     u_iter[2: N - 1] / (2 * h) * (store[2:N - 1, 8] - store[1: N - 2, 9]))
+                     (store[2:N - 1, 8] - 2 + store[1:N - 2, 9]) / (h ** 2) + (store[2:N - 1, 6] - store[1:N - 2, 7]) / (2 * h) +
+                     u_iter[1:N - 2] / (2 * h) * (store[2:N - 1, 8] - store[1: N - 2, 9]))
 
-    grad23 = 2 * ((store[3:N, 6] - 2 * np.hstack([u_iter[3:N], u[N]]) + store[2:N - 1, 7]) / (h ** 2) + np.hstack(
-        [u_iter[3:N], u[N]]) * (
-                          store[3:N, 6] - store[2:N - 1, 7]) / (2 * h)) * (
-                     store[2:N - 1, 9] / (h ** 2) - np.hstack([u_iter[3:N], u[N]]) * store[2:N - 1, 9] / (2 * h))
+    grad23 = 2 * ((store[3:N, 6] - 2 * u_iter[2:N-1] + store[2:N - 1, 7]) / (h ** 2) + u_iter[2:N-1] * (store[3:N, 6] - store[2:N - 1, 7]) / (2 * h)) * (
+                     store[2:N - 1, 9] / (h ** 2) - u_iter[2:N-1] * store[2:N - 1, 9] / (2 * h))
 
     # print(grad1)
     # print("grad2 first:",2 * (u_iter[1: -1]*(
@@ -132,36 +128,29 @@ while count < 1000:
     #                      2 * h) +
     #              u_iter[1: -1] / (2 * h) * (store[2:N - 1, 8] - store[1: N - 2, 9])))
     u_iter[1:-1] = u_iter[1:-1] - alpha1 * grad1 \
-        - alpha2 * (grad21 + grad22 + grad23)
+                   - alpha2 * (grad21 + grad22 + grad23)
     # update the second last and second first entry, i.e. u[1] and u[N-1], where u is the solution
-    u_iter[0] = u_iter[0] - alpha1 * (2 * (store[0, 5] - store[1, 2]) * (store[0, 1] - store[1, 0]) + 2 * (
-            store[1, 1] - store[2, 0]) * (store[1, 3]))  - alpha2 * (
-                2 * ((store[1, 6] - 2 * u_iter[0] + store[0, 7]) / (h ** 2) + u_iter[0] * (
-                store[1, 6] - store[0, 7]) / (2 * h)) * (
-                        (store[1, 8] - 2 + store[0, 9]) / (h ** 2) + (
-                        store[1, 6] - store[0, 7]) / (
-                                2 * h) +
-                        u_iter[0] / (2 * h) * (store[1, 8] - store[0, 9])) + 2 * (
-                            (store[2, 6] - 2 * u_iter[1] + store[1, 7]) / (h ** 2) + u_iter[1] * (
-                            store[2, 6] - store[1, 7]) / (2 * h)) * (
-                        store[1, 9] / (h ** 2) - u_iter[1] * store[1, 9] / (2 * h)))
+    u_iter[0] = u_iter[0] - alpha1 * (2 * (store[0, 5] - store[1, 2]) * (store[0, 1] - store[1, 0])
+                                      + 2 * (store[1, 1] - store[2, 0]) * (store[1, 3])) \
+                - alpha2 * (2 * ((store[1, 6] - 2 * u_iter[0] + store[0, 7]) / (h ** 2)
+                                 + u_iter[0] * (store[1, 6] - store[0, 7]) / (2 * h)) *
+                            ((store[1, 8] - 2 + store[0, 9]) / (h ** 2) + (store[1, 6] - store[0, 7]) / (2 * h) +
+                             u_iter[0] / (2 * h) * (store[1, 8] - store[0, 9]))
+                            + 2 * ((store[2, 6] - 2 * u_iter[1] + store[1, 7]) / (h ** 2)
+                                   + u_iter[1] * (store[2, 6] - store[1, 7]) / (2 * h)) * (store[1, 9] / (h ** 2)
+                                                                                           - u_iter[1] * store[1, 9] / (
+                                                                                                       2 * h)))
 
     u_iter[-1] = u_iter[-1] - alpha1 * (2 * (store[N - 3, 1] - store[N - 2, 0]) * (- store[N - 2, 4]) + 2 * (
             store[N - 2, 5] - store[N - 1, 2]) * (store[N - 2, 1] - store[N - 1, 0])) \
-     \
-            - alpha2 * (
-                    2 * ((store[N - 2, 6] - 2 * u_iter[-2] + store[N - 3, 7]) / (h ** 2) + u_iter[-2] * (
-                    store[N - 2, 6] - store[N - 3, 7])/(2 * h)) * (
-                            store[N - 2, 8] / (h ** 2) + u_iter[-2] * store[N - 2, 8] / (2 * h))
-                    + 2 * (
-                            (store[N - 1, 6] - 2 * u_iter[-1] + store[N - 2, 7]) / (h ** 2) + u_iter[
-                        -1] * (
-                                    store[N - 1, 6] - store[N - 2, 7]) / (2 * h)) * (
-                            (store[N - 1, 8] - 2 + store[N - 2, 9]) / (h ** 2) + (
-                            store[N - 1, 6] - store[N - 2, 7]) / (
-                                    2 * h) +
-                            u_iter[-1] / (2 * h) * (store[N - 1, 8] - store[N - 2, 9])))
-
+                 - alpha2 * (2 * ((store[N - 2, 6] - 2 * u_iter[-2] + store[N - 3, 7]) / (h ** 2) + u_iter[-2] * (
+            store[N - 2, 6] - store[N - 3, 7]) / (2 * h))
+                             * (store[N - 2, 8] / (h ** 2) + u_iter[-2] * store[N - 2, 8] / (2 * h))
+                             + 2 * ((store[N - 1, 6] - 2 * u_iter[-1] + store[N - 2, 7]) / (h ** 2)
+                                    + u_iter[-1] * (store[N - 1, 6] - store[N - 2, 7]) / (2 * h))
+                             * ((store[N - 1, 8] - 2 + store[N - 2, 9]) / (h ** 2)
+                                + (store[N - 1, 6] - store[N - 2, 7]) / (2 * h) +
+                                u_iter[-1] / (2 * h) * (store[N - 1, 8] - store[N - 2, 9])))
 
     u = np.hstack([a, u_iter, b])
     u_array = np.append(u_array, u)
