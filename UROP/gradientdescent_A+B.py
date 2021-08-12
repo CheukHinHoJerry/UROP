@@ -35,8 +35,8 @@ N = 10
 h = (2 / N) / (N ** 3)
 
 # boundary condition for the target problem, u(-1)=a, u(1)=b
-# a = 0.6
-# b = -0.8
+a = 0.6
+b = -0.8
 
 # a = -0.3
 # b = 1
@@ -44,8 +44,8 @@ h = (2 / N) / (N ** 3)
 # a = 0.8
 # b = 0.2
 
-a = 0.1
-b = -0.3
+# a = 0.1
+# b = -0.3
 # import model for looping
 model = load_model('model/10outputs_model_1000*10intervals.h5')
 # data_x = np.loadtxt('10_outputs_data_x_100*10intervals_moreData.txt', delimiter=',')
@@ -56,8 +56,8 @@ model = load_model('model/10outputs_model_1000*10intervals.h5')
 sol = np.array([0.6, 0.4692596, 0.3257162, 0.17255989, 0.01405396, -0.14489576,
                 -0.2993287, -0.44483116, -0.57800285, -0.69669375, -0.8])
 
-sol = np.array([0.1, 0.05812646, 0.01576398, -0.02673208, -0.06900187, -0.11069313,
-                -0.15147279, -0.19103717, -0.22912029, -0.26549974, -0.3])
+#sol = np.array([0.1, 0.05812646, 0.01576398, -0.02673208, -0.06900187, -0.11069313,
+#                -0.15147279, -0.19103717, -0.22912029, -0.26549974, -0.3])
 
 # initial guess
 u_array = np.zeros([N + 1, 1])
@@ -70,7 +70,7 @@ print(u[N])
 # all partial derivative for every loop
 
 count = 0
-alpha1 = 0.00000000000000001  # 0.001
+alpha1 = 0.001  # 0.001
 alpha2 = 0.00000000000000001
 tol = 0.0000001
 save_deri_f_error = 999
