@@ -5,6 +5,7 @@
 # we want to find the minimizer of F, namely u*.
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
+@@@@@
 """
 import numpy as np
 from tensorflow.keras.models import load_model
