@@ -12,7 +12,7 @@ import time
 
 data_x = np.loadtxt('data/10_outputs_data_x_1000*10intervals_moreData.txt', delimiter=',')
 target = np.loadtxt('data/10_outputs_target_1000*10intervals_moreData.txt', delimiter=',')
-model = load_model('model/10outputs_model_100*10intervals.h5')
+model = load_model('oldFiles/10outputs_model_100*10intervals.h5')
 print(model.predict(data_x))
 # for a and b, solve the equation on fine grid
 N = 10

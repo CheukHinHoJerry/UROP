@@ -11,7 +11,7 @@ from scipy.optimize import fsolve
 
 data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
 target = np.loadtxt('target2_10interval.txt', delimiter=',')
-model = load_model('../model/model_10intervals.h5')
+model = load_model('model_10intervals.h5')
 
 # for a and b, solve the equation on fine grid
 

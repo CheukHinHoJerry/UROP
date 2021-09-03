@@ -6,6 +6,7 @@
 # what we need to do is to compute the value of 5 derivative by NN at each iteration, where the Gradient
 # descent scheme is given by u(k+1)=u(k)-grad(F), i.e. for each i, ui(k+1)=ui(k)-partial(F)/partial(ui)
 """
+
 import numpy as np
 from tensorflow.keras.models import load_model
 from sklearn.model_selection import train_test_split
@@ -62,8 +63,9 @@ sol = np.array([0.1, 0.05812646, 0.01576398, -0.02673208, -0.06900187, -0.110693
 # initial guess
 u_array = np.zeros([N + 1, 1])
 u_iter = np.linspace(a, b, N + 1)[1:-1]
+# u_iter = np.zeros(N+1)[1:-1]
 print(u_iter)
-u_iter = np.copy(sol[1:-1])
+# u_iter = np.copy(sol[1:-1])
 u = np.hstack([a, u_iter, b])
 print(u[N])
 # instead of defining function F, we set the stopping criteria as |e_k|=|uk+1-u_k| since then we don't need to compute
@@ -71,7 +73,7 @@ print(u[N])
 
 count = 0
 alpha1 = 0.001  # 0.001
-alpha2 = 0.00000000000000001
+alpha2 = 0.000000000000000005
 tol = 0.0000001
 save_deri_f_error = 999
 save_fine_error = 999

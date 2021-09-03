@@ -56,7 +56,7 @@ Dx2[N, :] = np.hstack((np.zeros(N), -1))
 # import model for looping
 data_x = np.loadtxt('data_x2_10interval.txt', delimiter=',')
 target = np.loadtxt('target2_10interval.txt', delimiter=',')
-model = load_model('../model/model_10intervals.h5')
+model = load_model('model_10intervals.h5')
 N = 10
 
 sol = np.array([0.6, 0.44647016, 0.22890003, -0.03090544, -0.28457717, -0.48797398,
