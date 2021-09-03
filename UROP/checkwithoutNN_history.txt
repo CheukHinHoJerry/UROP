@@ -1,0 +1,537 @@
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.042186836287827524
+Error of B 974.9691876153436
+172
+(7,)
+[1002739.1728306   706376.90340033  532449.58230153  688068.27302807
+ 1277753.07756518 2242720.98950213 3356035.08419088]
+update from B [ 9.92175717e-08  3.84120824e-08 -1.01847302e-07 -2.80039086e-07
+ -4.32732293e-07 -4.97746933e-07 -4.37558816e-07]
+value of a 0.1
+u:  [ 0.1         0.07604791  0.05607599  0.04194283  0.03119589  0.01727622
+ -0.0084402  -0.05339691 -0.12051845 -0.20610073 -0.3       ]
+Error array:  [0.         0.01792145 0.04031201 0.06867491 0.10019776 0.12796935
+ 0.14303259 0.13764026 0.10860184 0.05939901 0.        ]
+Error with fine grid: 0.5376213347698161
+This is the  173  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.04182450564652451
+Error of B 970.9578783133894
+173
+(7,)
+[ 998704.14717593  706809.00555877  537434.25182721  695905.98530946
+ 1285527.52464308 2247351.81852645 3355505.61979344]
+update from B [ 9.74136405e-08  3.66010661e-08 -1.02952777e-07 -2.79974558e-07
+ -4.31469081e-07 -4.95722381e-07 -4.35526328e-07]
+value of a 0.1
+u:  [ 0.1         0.07618092  0.056289    0.04214707  0.03130097  0.01722557
+ -0.00864516 -0.05369365 -0.12080446 -0.20627345 -0.3       ]
+Error array:  [0.         0.01805446 0.04052502 0.06887915 0.10030284 0.1279187
+ 0.14282763 0.13734352 0.10831583 0.05922629 0.        ]
+Error with fine grid: 0.5371174588751083
+This is the  174  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.04146715296959787
+Error of B 966.9849118603673
+174
+(7,)
+[ 994702.5522638   707245.22628424  542390.36629077  703690.73394156
+ 1293243.36589971 2251941.99141192 3354972.12496685]
+update from B [ 9.56220246e-08  3.48033722e-08 -1.04048804e-07 -2.79908455e-07
+ -4.30213441e-07 -4.93712058e-07 -4.33509067e-07]
+value of a 0.1
+u:  [ 0.1         0.07631293  0.05650036  0.04234958  0.03140488  0.01717481
+ -0.00884908 -0.05398853 -0.12108855 -0.20644496 -0.3       ]
+Error array:  [0.         0.01818647 0.04073638 0.06908166 0.10040675 0.12786794
+ 0.14262371 0.13704864 0.10803174 0.05905478 0.        ]
+Error with fine grid: 0.536617432703764
+This is the  175  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.041114706948135016
+Error of B 963.0499805605821
+175
+(7,)
+[ 990734.17201893  707685.42980979  547317.97855593  711422.82495679
+ 1300901.08863417 2256491.95502787 3354434.74378841]
+update from B [ 9.38426741e-08  3.30189174e-08 -1.05135475e-07 -2.79840830e-07
+ -4.28965345e-07 -4.91715848e-07 -4.31506887e-07]
+value of a 0.1
+u:  [ 0.1         0.07644396  0.05671006  0.04255036  0.03150763  0.01712394
+ -0.00905195 -0.05428157 -0.12137072 -0.20661527 -0.3       ]
+Error array:  [0.         0.0183175  0.04094608 0.06928244 0.1005095  0.12781707
+ 0.14242084 0.1367556  0.10774957 0.05888447 0.        ]
+Error with fine grid: 0.5361212072513049
+This is the  176  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.040767097306821966
+Error of B 959.1527781976347
+176
+(7,)
+[ 986798.79104163  708129.48494213  552217.14624363  719102.56463233
+ 1308501.1743574  2261002.14786996 3353893.61551015]
+update from B [ 9.20755381e-08  3.12476184e-08 -1.06212881e-07 -2.79771734e-07
+ -4.27724760e-07 -4.89733639e-07 -4.29519642e-07]
+value of a 0.1
+u:  [ 0.1         0.07657399  0.05691812  0.04274942  0.03160923  0.01707297
+ -0.00925379 -0.0545728  -0.121651   -0.20678439 -0.3       ]
+Error array:  [0.         0.01844753 0.04115414 0.0694815  0.1006111  0.1277661
+ 0.142219   0.13646437 0.10746929 0.05871535 0.        ]
+Error with fine grid: 0.5356287341095958
+This is the  177  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.04042425479337796
+Error of B 955.2930000751255
+177
+(7,)
+[ 982896.19463919  708577.26491176  557087.93151233  726730.25941062
+ 1316044.09891629 2265473.00027798 3353348.87474675]
+update from B [ 9.03205645e-08  2.94893921e-08 -1.07281110e-07 -2.79701215e-07
+ -4.26491657e-07 -4.87765319e-07 -4.27547190e-07]
+value of a 0.1
+u:  [ 0.1         0.07670305  0.05712455  0.04294678  0.03170969  0.01702188
+ -0.00945459 -0.05486221 -0.1219294  -0.20695235 -0.3       ]
+Error array:  [0.         0.01857659 0.04136057 0.06967886 0.10071156 0.12771501
+ 0.1420182  0.13617496 0.10719089 0.05854739 0.        ]
+Error with fine grid: 0.5351399654605484
+This is the  178  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.040086111159124894
+Error of B 951.4703429766175
+178
+(7,)
+[ 979026.16884537  709028.6472127   561930.4008674   734306.21581743
+ 1323530.33260892 2269904.93465953 3352800.65163942]
+update from B [ 8.85777008e-08  2.77441558e-08 -1.08340251e-07 -2.79629322e-07
+ -4.25266002e-07 -4.85810778e-07 -4.25589389e-07]
+value of a 0.1
+u:  [ 0.1         0.07683112  0.05732935  0.04314244  0.03180903  0.0169707
+ -0.00965437 -0.05514983 -0.12220594 -0.20711913 -0.3       ]
+Error array:  [0.         0.01870466 0.04156537 0.06987452 0.1008109  0.12766383
+ 0.14181842 0.13588734 0.10691435 0.05838061 0.        ]
+Error with fine grid: 0.5346548540698534
+This is the  179  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03975259914631507
+Error of B 947.6845051871449
+179
+(7,)
+[ 975188.50043842  709483.51347161  566744.62495994  741830.74038356
+ 1330960.34029273 2274298.3657325  3352249.07197479]
+update from B [ 8.68468934e-08  2.60118268e-08 -1.09390390e-07 -2.79556100e-07
+ -4.24047766e-07 -4.83869906e-07 -4.23646103e-07]
+value of a 0.1
+u:  [ 0.1         0.07695823  0.05753254  0.04333642  0.03190725  0.01691943
+ -0.00985313 -0.05543567 -0.12248064 -0.20728477 -0.3       ]
+Error array:  [0.         0.01883177 0.04176856 0.0700685  0.10090912 0.12761256
+ 0.14161966 0.1356015  0.10663965 0.05821497 0.        ]
+Error with fine grid: 0.5341733532807846
+This is the  180  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03942365246853804
+Error of B 943.93518642753
+180
+(7,)
+[ 971382.97697486  709941.7492936   571530.67840432  749304.13956769
+ 1338334.58150343 2278653.70071042 3351694.25737655]
+update from B [ 8.51280880e-08  2.42923226e-08 -1.10431613e-07 -2.79481593e-07
+ -4.22836914e-07 -4.81942595e-07 -4.21717193e-07]
+value of a 0.1
+u:  [ 0.1         0.07708437  0.05773413  0.04352873  0.03200436  0.01686806
+ -0.01005087 -0.05571974 -0.1227535  -0.20744926 -0.3       ]
+Error array:  [0.         0.01895791 0.04197015 0.07026081 0.10100623 0.12756119
+ 0.14142192 0.13531743 0.10636679 0.05805048 0.        ]
+Error with fine grid: 0.5336954170080378
+This is the  181  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03909920580275117
+Error of B 940.2220879450188
+181
+(7,)
+[ 967609.38679353  710403.24413492  576288.6395942   756726.71969456
+ 1345653.51054905 2282971.33953498 3351136.3253955 ]
+update from B [ 8.34212295e-08  2.25855610e-08 -1.11464003e-07 -2.79405845e-07
+ -4.21633413e-07 -4.80028738e-07 -4.19802527e-07]
+value of a 0.1
+u:  [ 0.1         0.07720954  0.05793411  0.04371939  0.03210037  0.0168166
+ -0.01024761 -0.05600205 -0.12302455 -0.20761262 -0.3       ]
+Error array:  [0.         0.01908308 0.04217013 0.07045147 0.10110224 0.12750973
+ 0.14122518 0.13503512 0.10609574 0.05788712 0.        ]
+Error with fine grid: 0.5332209997315901
+This is the  182  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03877919477086366
+Error of B 936.5449124283623
+182
+(7,)
+[ 963867.51905026  710867.89117096  581018.59052977  764098.78687765
+ 1352917.57662275 2287251.67505155 3350575.38970328]
+update from B [ 8.17262624e-08  2.08914602e-08 -1.12487643e-07 -2.79328896e-07
+ -4.20437231e-07 -4.78128229e-07 -4.17901972e-07]
+value of a 0.1
+u:  [ 0.1         0.07733376  0.05813251  0.04390839  0.03219529  0.01676506
+ -0.01044334 -0.05628262 -0.1232938  -0.20777485 -0.3       ]
+Error array:  [0.         0.0192073  0.04236853 0.07064047 0.10119716 0.12745819
+ 0.14102945 0.13475455 0.10582649 0.05772489 0.        ]
+Error with fine grid: 0.5327500564906533
+This is the  183  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.038463555925225476
+Error of B 932.9033640314656
+183
+(7,)
+[ 960157.16373383  711335.58715266  585720.61666069  771420.64695568
+ 1360127.22389372 2291495.09323343 3350011.56015965]
+update from B [ 8.00431304e-08  1.92099384e-08 -1.13502614e-07 -2.79250786e-07
+ -4.19248333e-07 -4.76240963e-07 -4.16015398e-07]
+value of a 0.1
+u:  [ 0.1         0.07745703  0.05832933  0.04409576  0.03228913  0.01671344
+ -0.01063808 -0.05656147 -0.12356126 -0.20793598 -0.3       ]
+Error array:  [0.         0.01933057 0.04256535 0.07082784 0.101291   0.12740657
+ 0.14083471 0.1344757  0.10555903 0.05756376 0.        ]
+Error with fine grid: 0.5322825428776865
+This is the  184  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03815222673445007
+Error of B 929.29714837705
+184
+(7,)
+[ 956478.11165473  711806.23233241  590394.80669479  778692.6054328
+ 1367282.89161904 2295701.97333194 3349444.94299114]
+update from B [ 7.83717765e-08  1.75409142e-08 -1.14508997e-07 -2.79171555e-07
+ -4.18066685e-07 -4.74366837e-07 -4.14142676e-07]
+value of a 0.1
+u:  [ 0.1         0.07757934  0.05852459  0.0442815   0.0323819   0.01666174
+ -0.01083182 -0.0568386  -0.12382696 -0.208096   -0.3       ]
+Error array:  [0.         0.01945288 0.04276061 0.07101358 0.10138377 0.12735487
+ 0.14064097 0.13419857 0.10529333 0.05740374 0.        ]
+Error with fine grid: 0.5318184150323877
+This is the  185  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03784514557246687
+Error of B 925.7259725564966
+185
+(7,)
+[ 952830.15451196  712279.73027511  595041.25248903  785914.9674121
+ 1374385.0142219  2299872.68808882 3348875.64088729]
+update from B [ 7.67121432e-08  1.58843064e-08 -1.15506871e-07 -2.79091239e-07
+ -4.16892253e-07 -4.72505747e-07 -4.12283681e-07]
+value of a 0.1
+u:  [ 0.1         0.07770072  0.05871828  0.04446562  0.03247361  0.01660996
+ -0.01102458 -0.05711402 -0.1240909  -0.20825493 -0.3       ]
+Error array:  [0.         0.01957426 0.0429543  0.0711977  0.10147548 0.12730309
+ 0.14044821 0.13392315 0.10502939 0.05724481 0.        ]
+Error with fine grid: 0.5313576296357757
+This is the  186  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.037542251700047206
+Error of B 922.1895450723443
+186
+(7,)
+[ 949213.08485952  712755.9878131   599660.04884827  793088.03755117
+ 1381434.02138983 2304007.60389621 3348303.75313516]
+update from B [ 7.50641728e-08  1.42400341e-08 -1.16496313e-07 -2.79009875e-07
+ -4.15725001e-07 -4.70657591e-07 -4.10438287e-07]
+value of a 0.1
+u:  [ 0.1         0.07782116  0.05891042  0.04464815  0.03256427  0.01655811
+ -0.01121635 -0.05738776 -0.12435311 -0.20841277 -0.3       ]
+Error array:  [0.         0.0196947  0.04314644 0.07138023 0.10156614 0.12725124
+ 0.14025644 0.13364941 0.10476718 0.05708697 0.        ]
+Error with fine grid: 0.5309001439043365
+This is the  187  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03724348525985113
+Error of B 918.6875759473085
+187
+(7,)
+[ 945626.69615567  713234.91488036  604251.2934265   800212.11998872
+ 1388430.33817132 2308107.08096478 3347729.37571848]
+update from B [ 7.34278066e-08  1.26080168e-08 -1.17477401e-07 -2.78927498e-07
+ -4.14564893e-07 -4.68822270e-07 -4.08606372e-07]
+value of a 0.1
+u:  [ 0.1         0.07794066  0.05910102  0.04482907  0.03265388  0.01650619
+ -0.01140715 -0.05765982 -0.12461359 -0.20856954 -0.3       ]
+Error array:  [0.         0.0198142  0.04333704 0.07156115 0.10165575 0.12719932
+ 0.14006564 0.13337735 0.1045067  0.0569302  0.        ]
+Error with fine grid: 0.5304459155841693
+This is the  188  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.036948787254367725
+Error of B 915.219776605559
+188
+(7,)
+[ 942070.7827587   713716.42444237  608815.08655715  807287.51830471
+ 1395374.38505135 2312171.47349751 3347152.60143969]
+update from B [ 7.18029859e-08  1.09881741e-08 -1.18450210e-07 -2.78844140e-07
+ -4.13411896e-07 -4.66999684e-07 -4.06787816e-07]
+value of a 0.1
+u:  [ 0.1         0.07805924  0.05929009  0.04500842  0.03274246  0.0164542
+ -0.01159698 -0.05793021 -0.12487236 -0.20872525 -0.3       ]
+Error array:  [0.         0.01993278 0.04352611 0.0717405  0.10174433 0.12714733
+ 0.13987581 0.13310696 0.10424793 0.05677449 0.        ]
+Error with fine grid: 0.5299949029452203
+This is the  189  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.036658099534937455
+Error of B 911.785859919499
+189
+(7,)
+[ 938545.13993963  714200.43238428  613351.53112194  814314.53547349
+ 1402266.57803712 2316201.12984578 3346573.52001583]
+update from B [ 7.01896513e-08  9.38042605e-09 -1.19414814e-07 -2.78759836e-07
+ -4.12265972e-07 -4.65189732e-07 -4.04982498e-07]
+value of a 0.1
+u:  [ 0.1         0.0781769   0.05947763  0.0451862   0.03283001  0.01640215
+ -0.01178585 -0.05819896 -0.12512943 -0.20887991 -0.3       ]
+Error array:  [0.         0.02005044 0.04371365 0.07191828 0.10183188 0.12709528
+ 0.13968694 0.13283821 0.10399086 0.05661983 0.        ]
+Error with fine grid: 0.529547064775564
+This is the  190  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.036371364798923896
+Error of B 908.3855402735338
+190
+(7,)
+[ 935049.563904    714686.85739979  617860.73243736  821293.4738002
+ 1409107.32875146 2320196.39265724 3345992.21819119]
+update from B [ 6.85877432e-08  7.78469295e-09 -1.20371288e-07 -2.78674615e-07
+ -4.11127086e-07 -4.63392319e-07 -4.03190301e-07]
+value of a 0.1
+u:  [ 0.1         0.07829364  0.05966366  0.04536241  0.03291654  0.01635004
+ -0.01197375 -0.05846606 -0.12538482 -0.20903351 -0.3       ]
+Error array:  [0.         0.02016718 0.04389968 0.07209449 0.10191841 0.12704317
+ 0.13949904 0.13257111 0.10373547 0.05646623 0.        ]
+Error with fine grid: 0.5291023603756541
+This is the  191  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03608852655757668
+Error of B 905.0185333593801
+191
+(7,)
+[ 931583.85180011  715175.62090397  622342.79811633  828224.6348891
+ 1415897.04449611 2324157.59902765 3345408.77985385]
+update from B [ 6.69972015e-08  6.20089544e-09 -1.21319703e-07 -2.78588510e-07
+ -4.09995201e-07 -4.61607347e-07 -4.01411108e-07]
+value of a 0.1
+u:  [ 0.1         0.07840947  0.05984818  0.04553708  0.03300207  0.01629786
+ -0.01216071 -0.05873153 -0.12563854 -0.20918608 -0.3       ]
+Error array:  [0.         0.02028301 0.0440842  0.07226916 0.10200394 0.12699099
+ 0.13931208 0.13230564 0.10348175 0.05631366 0.        ]
+Error with fine grid: 0.5286607495527679
+This is the  192  th iteration.
+solving the systems one by one, i =  0
+solving the systems one by one, i =  1
+solving the systems one by one, i =  2
+solving the systems one by one, i =  3
+solving the systems one by one, i =  4
+solving the systems one by one, i =  5
+solving the systems one by one, i =  6
+solving the systems one by one, i =  7
+solving the systems one by one, i =  8
+solving the systems one by one, i =  9
+finish solve the system, now proceed to gradient descent.
+Error of A 0.03580952914874599
+Error of B 901.6845564748858
+192
+(7,)
+[ 928147.80172161  715666.64694824  626797.83794499  835108.31959468
+ 1422636.12834225 2328085.08065284 3344823.28607836]
+update from B [ 6.54179658e-08  4.62895446e-09 -1.22260132e-07 -2.78501549e-07
+ -4.08870280e-07 -4.59834719e-07 -3.99644807e-07]
+value of a 0.1
+u:  [ 0.1         0.07852439  0.06003121  0.0457102   0.03308659  0.01624564
+ -0.01234671 -0.05899539 -0.12589061 -0.20933763 -0.3       ]
+Error array:  [0.         0.02039793 0.04426723 0.07244228 0.10208846 0.12693877
+ 0.13912608 0.13204178 0.10322968 0.05616211 0.        ]
+Error with fine grid: 0.528222192615325
+This is the  193  th iteration.
