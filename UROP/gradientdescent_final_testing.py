@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 import time
 import tensorflow as tf
 from solveFullSystem import solveFullSystem
+import json
 
 
 def calError(prediction, target):
@@ -36,27 +37,34 @@ model = load_model('model/10outputs_model_1000*10intervals.h5')
 # number of intervals
 N = 10
 h = (2 / N) / (N ** 3)
-
+f = open('result.txt', 'w')
+save_ab = []
+save_min_error_A = []
+save_min_error_B = []
+save_min_error = []
+save_solve_fullSystem_time = []
+save_solve_nn_time = []
 # testing interpolation, using (tanh(x1),tan(x2)) with x1,x2 runs through [-5,5]
 for i in range(10):
     for j in range(10):
         # boundary condition for the target problem, u(-1)=a, u(1)=b
         a = 1.5 * np.tanh(0.2 * (-5 + i) + 0.1)
         b = 1.5 * np.tanh(0.2 * (-5 + j) + 0.2)
-        r0 = np.hstack([a, np.zeros(N**4 - 1), b])
+        r0 = np.hstack([a, np.zeros(N ** 4 - 1), b])
         count = 0
         alpha1 = 0.001  # 0.001
         alpha2 = 0.000000000000000005
         # calculaing full system solution and record the time needed
         print("solving Full system")
         start_solving_full_system = time.time()
-        sol = solveFullSystem(a, b)
+        # sol = solveFullSystem(a, b)
+        sol = np.linspace(a, b, N ** 4 + 1)
         end_solving_full_system = time.time()
         print("end of solving Full system")
 
         tmp = []
-        for coarse_point in range(N+1):
-            tmp.append(sol[coarse_point*N**3])
+        for coarse_point in range(N + 1):
+            tmp.append(sol[coarse_point * N ** 3])
         coarse_sol = np.array(tmp)
         # initial guess, using linear function as guessing
         u_iter = np.linspace(a, b, N + 1)[1:-1]
@@ -66,15 +74,14 @@ for i in range(10):
         min_error_A = np.inf
         min_error_B = np.inf
         patience = 0
+        start_solving_with_NN = time.time()
+
         # stopping criteria 1 :
         # while(current_error_with_fine_grid > tol):
-
         # stopping criteria 2: patience
-        # while(patience<6):
-
-        # stopping criteria 3: count
-        start_solving_with_NN = time.time()
-        while count < 10000:
+        while (patience < 6):
+            # stopping criteria 3: count
+            # while count < 10000:
 
             # defining array for storing partial derivative for each loop (since u are different for each loop)
             store = np.zeros([N, 10])
@@ -156,10 +163,30 @@ for i in range(10):
             else:
                 patience += 1
         end_solving_with_NN = time.time()
-        with open('result.txt', 'w') as f:
-            f.write("(a,b)=(", a, ",", b, ")", "  min_A:", min_error_A, ",min_B:", min_error_B, ",min_error:",
-                    min_error,"Time for solving full system:", end_solving_full_system - start_solving_full_system,
-                    "Time for iteration using DNN", end_solving_with_NN - start_solving_with_NN)
-            f.write('\n')
-            f.close()
+        line = "(a,b)=(" + str(a) + "," + str(b) + ")" + "  min_A:" + str(min_error_A) + ", min_B:" + str(
+            min_error_B) + ", min_error:" + \
+               str(min_error) + ", Time for solving full system:" + str(
+            end_solving_full_system - start_solving_full_system) + \
+               ", Time for iteration using DNN：" + str(end_solving_with_NN - start_solving_with_NN)
+        save_ab.append([a, b])
+        save_min_error_A.append(min_error_A)
+        save_min_error_B.append(min_error_B)
+        save_min_error.append(min_error)
+        save_solve_fullSystem_time.append(end_solving_full_system - start_solving_full_system)
+        save_solve_nn_time.append(end_solving_with_NN - start_solving_with_NN)
+        f.write(line)
+        f.write('\n')
         print("finished one iteration, proceed to next pair of (a,b)")
+save_dict = {"(a,b)": save_ab, "save_min_error_A": save_min_error_A, "save_min_error_B": save_min_error_B,
+             "min_error": save_min_error, "save_solve_fullSystem_time": save_solve_fullSystem_time,
+             "save_solve_nn_time": save_solve_nn_time}
+
+np.save(save_dict)
+a_file = open("result.json", "w")
+json.dump(save_dict, a_file)
+a_file.close()
+
+# a_file = open("result.json", "r")
+# output = a_file.read()
+# print(output)
+# a_file.close()
